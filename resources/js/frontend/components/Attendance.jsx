@@ -77,7 +77,7 @@ export class Attendance extends Component {
               {(searchedText ? searchedData : data).map((item, key) => (
                 <li key={key} className='list-group-item'>
                   {item.name}
-                  <i class='fas fa-circle' style={{ color: !item.logged ? '#42b72a' : '#ccc' }} />
+                  <i class='fas fa-circle' style={{ color: item.logged ? '#42b72a' : '#ccc' }} />
                 </li>
               ))}
             </ul>
