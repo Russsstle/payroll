@@ -1,8 +1,8 @@
 import './bootstrap'
 import '../sass/app.scss'
-import 'simplebar'
 import 'datatables.net'
-import 'datatables.net-bs4'
+import 'mdbootstrap/js/mdb'
+import 'mdbootstrap/js/addons/datatables'
 
 import React from 'react'
 import { AppContainer } from 'react-hot-loader'

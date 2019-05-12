@@ -25,8 +25,9 @@ class Jwt {
       } else if ($e instanceof \Tymon\JWTAuth\Exceptions\JWTException) {
         $error = 'Token Absent';
       }
-      return $next($request);
-      return response()->json(['error' => $error], 403);
+      if (app()->environment('production')) {
+        abort(403);
+      }
     }
     return $next($request);
   }

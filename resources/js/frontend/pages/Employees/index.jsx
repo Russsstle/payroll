@@ -12,10 +12,10 @@ export class Employees extends Component {
 
     return (
       <Switch>
-        <Route exact path={`${match.url}`} component={Table} />
-        <Route path={`${match.url}/add`} component={Add} />
-        <Route exact path={`${match.url}/:id`} component={View} />
-        <Route path={`${match.url}/:id/edit`} component={Edit} />
+        <Route exact path={`${match.url}`} render={props => <Table {...props} base='/employees' />} />
+        <Route path={`${match.url}/add`} render={props => <Add {...props} base='/employees' />} />
+        <Route exact path={`${match.url}/:id`} render={props => <View {...props} base='/employees' />} />
+        <Route path={`${match.url}/:id/edit`} render={props => <Edit {...props} base='/employees' />} />
       </Switch>
     )
   }

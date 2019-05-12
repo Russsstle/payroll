@@ -15,12 +15,14 @@ use Illuminate\Http\Request;
 
 Route::apiResources([
   'users'          => 'UserController',
+  'attendances'    => 'AttendanceController',
   'dashboard'      => 'DashboardController',
   'salaries'       => 'SalaryController',
   'attachments'    => 'AttachmentController',
   'leaves'         => 'LeaveController',
   'leave_types'    => 'LeaveTypeController',
   'schedules'      => 'ScheduleController',
+  'roles'          => 'RoleController',
   'role_schedules' => 'RoleScheduleController',
   'role_salaries'  => 'RoleSalaryController'
 ]);

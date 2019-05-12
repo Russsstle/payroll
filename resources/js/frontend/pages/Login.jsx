@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator'
 
 import Button from '../components/Button'
 import { parseForm } from '../assets/Helper'
-import auth from '../assets/Auth'
+import { login, refreshAuth } from '../assets/Auth'
 
 export class Login extends Component {
   state = {
@@ -17,11 +17,10 @@ export class Login extends Component {
 
     this.setState({ isLogging: true })
 
-    auth
-      .login(parseForm(e.target))
+    login(parseForm(e.target))
       .then(({ data }) => {
         localStorage.token = data.token
-        this.props.refreshAuth()
+        refreshAuth()
       })
       .catch(({ response }) => {
         alert(response.data.message)
@@ -45,7 +44,7 @@ export class Login extends Component {
                 className='fadeIn second'
                 name='username'
                 placeholder='Username'
-                autocomplete='off'
+                autoComplete='off'
                 required
               />
               <input
@@ -53,10 +52,10 @@ export class Login extends Component {
                 className='fadeIn third'
                 name='password'
                 placeholder='Password'
-                autocomplete='off'
+                autoComplete='off'
                 required
               />
-              <Button className='fadeIn fourth btnLogin' status={this.state.isLogging ? 'loading' : ''}>
+              <Button className='fadeIn fourth btnLogin' loading={this.state.isLogging}>
                 Log In
               </Button>
             </form>

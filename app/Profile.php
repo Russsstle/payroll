@@ -14,6 +14,13 @@ class Profile extends Model {
   /**
    * @var array
    */
+  protected $attributes = [
+    'avatar' => 'images/default-avatar.svg'
+  ];
+
+  /**
+   * @var array
+   */
   protected $fillable = [
     'avatar',
     'first_name',

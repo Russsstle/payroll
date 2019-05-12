@@ -16,7 +16,6 @@
     "autobind-decorator": "^2.4.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "cross-env": "^5.1",
-    "font-awesome": "^4.7.0",
     "hover.css": "^2.3.2",
     "laravel-mix": "^4.0.7",
     "react": "^16.2.0",
@@ -33,6 +32,7 @@
     "fuzzy-search": "^3.0.1",
     "jquery": "^3.4.1",
     "lodash": "^4.17.5",
+    "mdbootstrap": "^4.8.0",
     "moment": "^2.24.0",
     "popper.js": "^1.12",
     "react": "^16.2.0",
@@ -41,7 +41,7 @@
     "react-moment": "^0.9.2",
     "react-number-format": "^4.0.7",
     "react-router-dom": "^5.0.0",
-    "simplebar": "^4.0.0-alpha.7",
+    "simplebar-react": "^1.0.0-alpha.9",
     "voca": "^1.4.0"
   }
 }

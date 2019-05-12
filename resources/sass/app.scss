@@ -1,8 +1,15 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito|Roboto');
+@import url('https://use.fontawesome.com/releases/v5.8.2/css/all.css');
 @import '_variables';
 @import '~bootstrap/scss/bootstrap';
-@import '~font-awesome/scss/font-awesome';
-@import '~datatables.net-bs4/css/dataTables.bootstrap4';
+@import '~mdbootstrap/scss/mdb';
+@import '~mdbootstrap/scss/addons/_datatables';
+@import '~simplebar/dist/simplebar.css';
+
+body {
+  background-color: #fafafa;
+  overflow-x: hidden;
+}
 
 html,
 body,
@@ -17,6 +24,12 @@ h4,
 h5,
 h6 {
   font-family: 'Roboto';
+}
+
+.breadcrumb {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .login {
@@ -222,12 +235,23 @@ h6 {
 }
 
 .form-control,
-.form-control:focus {
+.custom-select,
+.custom-file-input {
   box-shadow: none;
+
+  &:focus,
+  &:focus ~ .custom-file-label {
+    box-shadow: none;
+  }
+}
+
+.custom-file-input {
+  cursor: pointer;
 }
 
 .dashboard-tile {
   margin-bottom: 20px;
+  cursor: pointer;
 
   a,
   a:hover {
@@ -236,8 +260,101 @@ h6 {
   }
 }
 
+.btn {
+  &.btn-rounded {
+    border-radius: 10em;
+  }
+  .fas {
+    @extend .mr-1;
+  }
+}
+
 .dt-bootstrap4 {
-  .custom-select {
-    background: none;
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .dataTables_empty {
+    text-align: center;
+  }
+}
+
+.custom-select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -ms-progress-appearance: none;
+  appearance: none;
+}
+
+.dropdown-item {
+  padding: 0.25rem 1.5rem !important;
+
+  &.active,
+  &:active {
+    color: #fff !important;
+    background-color: #007bff !important;
+  }
+}
+
+.btn-block + .btn-block {
+  margin-top: 0.5rem !important;
+}
+
+.file-upload-viewer {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  width: 200px;
+
+  img {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+  }
+}
+
+.custom-file-label {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.avatar-icon {
+  object-fit: cover;
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  z-index: 1000;
+  transition: width 0.3s ease-in-out;
+  background-color: #fff;
+  width: 0;
+
+  .btn {
+    width: 30px;
+    height: 26px;
+
+    .fas {
+      margin-right: 0px !important;
+    }
+  }
+
+  [data-simplebar='init'] {
+    height: calc(100% - 54px);
+  }
+
+  .list-group {
+    overflow: auto;
+
+    i.fas {
+      float: right;
+      line-height: 25px;
+    }
   }
 }

@@ -5,6 +5,7 @@ import $ from 'jquery'
 
 import Login from './pages/Login'
 import App from './App'
+import { setUserInfo, setRefreshAuth } from './assets/Auth'
 
 export class Root extends Component {
   constructor(props) {
@@ -20,14 +21,15 @@ export class Root extends Component {
     })
   }
 
-  checkAuth() {}
-
   render() {
     return (
       <AuthProvider authUrl={this.authUrl} reqOptions={this.reqOptions}>
         <AuthConsumer>
-          {({ isLoading, error, refreshAuth }) =>
-            isLoading ? (
+          {({ isLoading, refreshAuth, userInfo, error }) => {
+            setRefreshAuth(refreshAuth)
+            setUserInfo(userInfo)
+
+            return isLoading || (!userInfo && !error) ? (
               <div
                 style={{
                   backgroundColor: 'white',
@@ -42,16 +44,16 @@ export class Root extends Component {
               </div>
             ) : error ? (
               <Switch>
-                <Route exact path='/login' render={props => <Login {...props} refreshAuth={refreshAuth} />} />
+                <Route exact path='/login' component={Login} />
                 <Redirect from='*' to='/login' />
               </Switch>
             ) : (
               <Switch>
                 <Redirect from='/login' to='/' />
-                <Route path='*' render={props => <App {...props} refreshAuth={refreshAuth} />} />
+                <Route path='*' component={App} />
               </Switch>
             )
-          }
+          }}
         </AuthConsumer>
       </AuthProvider>
     )

@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Attendance;
-use App\User;
+use App\Http\Controllers\Controller;
+use App\Role;
 use Illuminate\Http\Request;
 
-class AttendanceController extends Controller {
+class RoleController extends Controller {
   /**
    * Display a listing of the resource.
    *
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    //
+    return Role::all();
   }
 
   /**
@@ -44,24 +44,7 @@ class AttendanceController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request, $id) {
-    $code = $request->code;
-
-    $user = User::where('uid', $code)->firstOrFail();
-
-    $lastStatus = $user->attendances()->lastStatus();
-
-    $attendance = new Attendance;
-
-    $attendance->user()->associate($user);
-    $attendance->status = $lastStatus == 'LOGGED_IN' ? 'LOGGED_OUT' : 'LOGGED_IN';
-
-    $attendance->save();
-    return [
-      'name'      => $user->profile->name,
-      'avatar'    => $user->profile->avatar ? asset('uploads/' . $user->profile->avatar) : null,
-      'status'    => $attendance->status,
-      'timestamp' => $attendance->created_at
-    ];
+    //
   }
 
   /**

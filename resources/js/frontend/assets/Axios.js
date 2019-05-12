@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { convertToFormData } from './Helper'
+import axios, { CancelToken } from 'axios'
 
 export default class Axios {
   constructor(url) {
@@ -9,15 +8,26 @@ export default class Axios {
       baseURL: url,
       Authorization: token ? 'Bearer ' + token : null
     })
+
+    this.cancelToken = CancelToken.source()
   }
 
   async get(url, data, config = {}) {
-    data = convertToFormData(data)
-    return await this.axios.get(url, { params: data, ...config })
+    return await this.axios.get(url, {
+      params: data,
+      cancelToken: this.cancelToken.token,
+      ...config
+    })
   }
 
   async post(url, data, config = {}) {
-    data = convertToFormData(data)
-    return await this.axios.post(url, data, config)
+    return await this.axios.post(url, data, {
+      cancelToken: this.cancelToken.token,
+      ...config
+    })
+  }
+
+  cancel() {
+    this.cancelToken.cancel()
   }
 }

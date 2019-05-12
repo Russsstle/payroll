@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Profile;
+use App\Role;
 use App\Salary;
 use App\Schedule;
 use App\SSS;
@@ -27,7 +28,7 @@ class UserController extends Controller {
         $item = new \stdClass;
 
         $item->id         = $user->id;
-        $item->avatar     = $user->profile->avatar ? asset('uploads/' . $user->profile->avatar) : null;
+        $item->avatar     = asset($user->profile->avatar);
         $item->name       = $user->profile->name;
         $item->role_name  = $user->role->name;
         $item->created_at = $user->profile->created_at->format('F d, Y h:i:s A');
@@ -37,25 +38,6 @@ class UserController extends Controller {
 
       return $data;
     }
-
-    $users = User::all();
-
-    $data = [];
-
-    foreach ($users as $user) {
-      $item = new \stdClass;
-
-      $item->id         = $user->id;
-      $item->uid        = $user->uid;
-      $item->role_name  = $user->role->name;
-      $item->avatar     = $user->profile->avatar ? asset('uploads/' . $user->profile->avatar) : null;
-      $item->name       = $user->profile->name;
-      $item->created_at = $user->profile->created_at->format('F d, Y h:i:s A');
-
-      $data[] = $item;
-    }
-
-    return $data;
   }
 
   /**
@@ -83,9 +65,10 @@ class UserController extends Controller {
 
     if ($request->hasFile('avatar')) {
       $extension = pathinfo($request->avatar->getClientOriginalName(), PATHINFO_EXTENSION);
+      $filename  = Str::random(32) . '.' . $extension;
 
-      $profile->avatar = Str::random(32) . '.' . $extension;
-      $request->avatar->move(public_path('uploads'), $profile->avatar);
+      $request->avatar->move(public_path('uploads'), $filename);
+      $profile->avatar = 'uploads/' . $filename;
     }
 
     $profile->save();
@@ -100,18 +83,7 @@ class UserController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function show($id) {
-    $user = User::find($id);
-
-    $item = new \stdClass;
-
-    $item->id         = $user->id;
-    $item->uid        = $user->uid;
-    $item->role_name  = $user->role->name;
-    $item->avatar     = $user->profile->avatar ? asset('uploads/' . $user->profile->avatar) : null;
-    $item->name       = $user->profile->name;
-    $item->created_at = $user->profile->created_at->format('F d, Y h:i:s A');
-
-    return $item;
+    return User::with('profile')->find($id);
   }
 
   /**
@@ -139,21 +111,13 @@ class UserController extends Controller {
 
     if ($request->hasFile('avatar')) {
       $extension = pathinfo($request->avatar->getClientOriginalName(), PATHINFO_EXTENSION);
+      $filename  = Str::random(32) . '.' . $extension;
 
-      $profile->avatar = Str::random(32) . '.' . $extension;
-      $request->avatar->move(public_path('uploads'), $profile->avatar);
+      $request->avatar->move(public_path('uploads'), $filename);
+      $profile->avatar = 'uploads/' . $filename;
     }
 
     $profile->save();
-
-    // $data             = new \stdClass;
-    // $data->id         = $user->id;
-    // $data->username   = $user->username;
-    // $data->first_name = $user->profile->first_name;
-    // $data->last_name  = $user->profile->last_name;
-    // $data->avatar     = asset('uploads/' . $user->profile->avatar);
-
-    return ['success' => true];
   }
 
   /**

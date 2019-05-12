@@ -49,6 +49,13 @@ class AuthController extends Controller {
       return response()->json(['error' => $error], 403);
     }
 
-    return response()->json(compact('user'));
+    $data = [
+      'id'       => $user->id,
+      'username' => $user->username,
+      'name'     => $user->profile->name,
+      'avatar'   => asset($user->profile->avatar)
+    ];
+
+    return response()->json(['user' => $data]);
   }
 }

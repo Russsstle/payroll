@@ -3,8 +3,12 @@ import React, { Component } from 'react'
 export class Button extends Component {
   render() {
     return (
-      <button disabled={this.props.status == 'loading'} {...this.props}>
-        {this.props.status == 'loading' ? <i className='fa fa-spinner fa-spin fa-lg' /> : this.props.children}
+      <button className={this.props.className} disabled={this.props.loading} onClick={this.props.onClick}>
+        {this.props.loading ? (
+          <span className='spinner-border spinner-border-sm' role='status' aria-hidden='true' />
+        ) : (
+          this.props.children
+        )}
       </button>
     )
   }

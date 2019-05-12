@@ -1,0 +1,6 @@
+{
+  "SAVED_SUCCESS": "Saved Successfully",
+  "SERVER_ERROR": "Server Error. Please try again.",
+  "FETCH_PROFILE_FAIL": "Failed to get profile. Please reload the page.",
+  "FETCH_ROLES_FAIL": "Failed to get roles. Please reload the page."
+}
