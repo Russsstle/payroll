@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { AuthProvider, AuthConsumer } from 'react-check-auth'
-import $ from 'jquery'
 
 import Login from './pages/Login'
 import App from './App'
@@ -15,7 +14,6 @@ export class Root extends Component {
     this.reqOptions = () => ({
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: localStorage.token ? 'Bearer ' + localStorage.token : null
       }
     })
@@ -30,17 +28,8 @@ export class Root extends Component {
             setUserInfo(userInfo)
 
             return isLoading || (!userInfo && !error) ? (
-              <div
-                style={{
-                  backgroundColor: 'white',
-                  display: 'flex',
-                  backgroundColor: 'white',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: '100%'
-                }}
-              >
-                <img src='/images/loader.svg' alt='' />
+              <div className='loader'>
+                <span className='spinner-border text-primary' />
               </div>
             ) : error ? (
               <Switch>

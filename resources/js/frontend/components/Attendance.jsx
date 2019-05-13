@@ -1,21 +1,29 @@
 import React, { Component } from 'react'
-import $ from 'jquery'
 import autobind from 'autobind-decorator'
 import FuzzySearch from 'fuzzy-search'
 import SimpleBar from 'simplebar-react'
 
 import Api from '../assets/Api'
 import Loader from '../components/Loader'
+import Button from '../components/Button'
 
 export class Attendance extends Component {
   state = { isLoading: true, data: [], searchedData: [] }
 
   componentDidMount() {
     $(document).click(function(e) {
-      if ($(e.target).closest('.sidebar').length == 0 && $('.sidebar').css('width') != '0px') {
+      if (
+        $(e.target).closest('.sidebar').length == 0 &&
+        !$(e.target).hasClass('fas') &&
+        $('.sidebar').css('width') != '0px'
+      ) {
         $('.sidebar').css('width', '0px')
       }
     })
+  }
+
+  componentWillUnmount() {
+    $(document).unbind('click')
   }
 
   toggle() {
@@ -40,18 +48,20 @@ export class Attendance extends Component {
   }
 
   @autobind
-  fetchData() {
+  async fetchData() {
     const attendance = new Api('attendances')
     this.setState({ isLoading: true })
-    attendance
-      .get()
-      .then(({ data }) => {
-        this.setState({ data })
-        this.filter()
-      })
-      .finally(() => {
-        this.setState({ isLoading: false })
-      })
+
+    try {
+      const { data } = await attendance.get()
+      this.setState({ data: _.sortBy(data, ['name']) })
+      this.filter()
+    } catch (err) {
+      console.log(err)
+      alert(messages.SERVER_ERROR)
+    } finally {
+      this.setState({ isLoading: false })
+    }
   }
 
   render() {
@@ -61,13 +71,13 @@ export class Attendance extends Component {
       <div className='sidebar shadow'>
         <div className='d-flex p-2'>
           <input type='text' className='form-control' onChange={this.handleSearch} />
-          <button
-            className='btn btn-primary btn-sm btn-rounded p-0'
+          <Button
+            className='btn btn-primary btn-sm btn-rounded btn-icon p-0'
             onClick={this.fetchData}
-            disabled={this.state.isLoading}
+            loading={this.state.isLoading}
           >
             <i className='fas fa-sync' />
-          </button>
+          </Button>
         </div>
         {this.state.isLoading ? (
           <Loader />

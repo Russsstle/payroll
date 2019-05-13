@@ -11,6 +11,7 @@ use App\SSS;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Yajra\Datatables\Datatables;
 
 class UserController extends Controller {
   /**
@@ -20,6 +21,7 @@ class UserController extends Controller {
    */
   public function index() {
     if (request()->query('type') == 'table') {
+
       $users = User::all();
 
       $data = [];
@@ -36,7 +38,7 @@ class UserController extends Controller {
         $data[] = $item;
       }
 
-      return $data;
+      return Datatables::of($data)->make(true);
     }
   }
 
@@ -83,7 +85,11 @@ class UserController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function show($id) {
-    return User::with('profile')->find($id);
+    $user         = User::find($id);
+    $data         = (object) array_merge($user->toArray(), $user->profile->toArray());
+    $data->avatar = asset($user->profile->avatar);
+
+    return response()->json($data);
   }
 
   /**

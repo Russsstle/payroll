@@ -4,6 +4,8 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~mdbootstrap/scss/mdb';
 @import '~mdbootstrap/scss/addons/_datatables';
+@import '~mdbootstrap/scss/addons/_datatables-select';
+@import '~datatables.net-plugins/features/searchHighlight/dataTables.searchHighlight';
 @import '~simplebar/dist/simplebar.css';
 
 body {
@@ -24,6 +26,24 @@ h4,
 h5,
 h6 {
   font-family: 'Roboto';
+}
+
+img {
+  object-fit: cover;
+}
+
+.loader {
+  background-color: white;
+  display: flex;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  span {
+    height: 4em;
+    width: 4em;
+  }
 }
 
 .breadcrumb {
@@ -264,7 +284,27 @@ h6 {
   &.btn-rounded {
     border-radius: 10em;
   }
-  .fas {
+  &.btn-floating {
+    .btn-floating {
+      width: 47px;
+      height: 47px;
+      position: relative;
+      z-index: 1;
+      vertical-align: middle;
+      display: inline-block;
+      overflow: hidden;
+      transition: all 0.2s ease-in-out;
+      margin: 10px;
+      border-radius: 50%;
+      padding: 0;
+      cursor: pointer;
+    }
+  }
+  &.btn-icon {
+    width: 47px;
+    padding: 0.84rem 0.84rem;
+  }
+  &:not(.btn-icon) .fas {
     @extend .mr-1;
   }
 }
@@ -277,6 +317,22 @@ h6 {
 
   .dataTables_empty {
     text-align: center;
+  }
+
+  .dataTables_processing {
+    position: absolute;
+    top: 60px;
+    left: 84%;
+    width: 32%;
+    height: 40px;
+    margin-left: -50%;
+    padding-top: 6px;
+    text-align: center;
+    font-size: 1.2em;
+  }
+
+  tr td:last-child {
+    width: 13%;
   }
 }
 
@@ -299,18 +355,6 @@ h6 {
 
 .btn-block + .btn-block {
   margin-top: 0.5rem !important;
-}
-
-.file-upload-viewer {
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
-  width: 200px;
-
-  img {
-    height: 200px;
-    width: 200px;
-    object-fit: cover;
-  }
 }
 
 .custom-file-label {
@@ -337,12 +381,9 @@ h6 {
   width: 0;
 
   .btn {
-    width: 30px;
-    height: 26px;
-
-    .fas {
-      margin-right: 0px !important;
-    }
+    width: 40px;
+    height: 34px;
+    margin: 2px 3px;
   }
 
   [data-simplebar='init'] {

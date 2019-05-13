@@ -5,7 +5,7 @@ export class Button extends Component {
     return (
       <button className={this.props.className} disabled={this.props.loading} onClick={this.props.onClick}>
         {this.props.loading ? (
-          <span className='spinner-border spinner-border-sm' role='status' aria-hidden='true' />
+          <span className='spinner-border spinner-border-sm' aria-hidden='true' />
         ) : (
           this.props.children
         )}

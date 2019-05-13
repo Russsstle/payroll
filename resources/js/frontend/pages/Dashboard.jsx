@@ -5,14 +5,16 @@ import autobind from 'autobind-decorator'
 import Attendance from '../components/Attendance'
 
 class Dashboard extends Component {
+  attendance = React.createRef()
+
   @autobind
   toggleAttendance() {
-    this.refs.attendance.toggle()
+    this.attendance.current.toggle()
   }
 
   render() {
     return (
-      <div>
+      <>
         <h3 className='font-weight-bold mt-4 text-center'>Common Tasks</h3>
         <div className='row' style={{ margin: 20 }}>
           <div className='col-sm-12 col-md-4 dashboard-tile '>
@@ -45,8 +47,8 @@ class Dashboard extends Component {
             </div>
           </div>
         </div>
-        <Attendance ref='attendance' />
-      </div>
+        <Attendance ref={this.attendance} />
+      </>
     )
   }
 }

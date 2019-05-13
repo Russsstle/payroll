@@ -5,6 +5,7 @@ import autobind from 'autobind-decorator'
 import Button from '../components/Button'
 import { parseForm } from '../assets/Helper'
 import { login, refreshAuth } from '../assets/Auth'
+import messages from '../strings/messages'
 
 export class Login extends Component {
   state = {
@@ -12,22 +13,24 @@ export class Login extends Component {
   }
 
   @autobind
-  login(e) {
+  async login(e) {
     e.preventDefault()
 
     this.setState({ isLogging: true })
 
-    login(parseForm(e.target))
-      .then(({ data }) => {
-        localStorage.token = data.token
-        refreshAuth()
-      })
-      .catch(({ response }) => {
+    try {
+      const { data } = await login(parseForm(e.target))
+      localStorage.token = data.token
+      refreshAuth()
+    } catch (err) {
+      if (err.response) {
         alert(response.data.message)
-      })
-      .finally(() => {
-        this.setState({ isLogging: false })
-      })
+      } else {
+        alert(messages.SERVER_ERROR)
+      }
+    } finally {
+      this.setState({ isLogging: false })
+    }
   }
 
   render() {

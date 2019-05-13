@@ -1,8 +1,11 @@
 import './bootstrap'
 import '../sass/app.scss'
+import 'jquery-highlight'
 import 'datatables.net'
+import 'datatables.net-plugins/features/searchHighlight/dataTables.searchHighlight'
 import 'mdbootstrap/js/mdb'
 import 'mdbootstrap/js/addons/datatables'
+import 'mdbootstrap/js/addons/datatables-select'
 
 import React from 'react'
 import { AppContainer } from 'react-hot-loader'

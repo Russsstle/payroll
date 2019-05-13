@@ -9,7 +9,7 @@ export class Table extends Component {
         title='Employees'
         columns={[
           { label: 'ID', key: 'id' },
-          { label: 'Avatar', key: 'avatar', image: true },
+          { label: 'Avatar', key: 'avatar', image: true, searchable: false, sortable: false },
           { label: 'Name', key: 'name' },
           { label: 'Role', key: 'role_name' },
           { label: 'Date Registered', key: 'created_at' }

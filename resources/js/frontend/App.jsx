@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
 import Dashboard from './pages/Dashboard'
@@ -19,7 +19,7 @@ export class Router extends Component {
 
   render() {
     return (
-      <Fragment>
+      <>
         <Navbar userInfo={this.props.userInfo} refreshAuth={this.props.refreshAuth} />
         <div className='container pb-5'>
           {this.state.url != '/' && <Breadcrumb url={this.state.url} />}
@@ -28,7 +28,7 @@ export class Router extends Component {
             <Route path='/employees' component={Employees} />
           </Switch>
         </div>
-      </Fragment>
+      </>
     )
   }
 }

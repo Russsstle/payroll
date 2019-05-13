@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Prompt } from 'react-router-dom'
 import autobind from 'autobind-decorator'
 import { withRouter } from 'react-router-dom'
 
@@ -10,6 +11,7 @@ import civilstatus from '../../strings/civilstatus'
 import messages from '../../strings/messages'
 
 export class Form extends Component {
+  form = React.createRef()
   state = {
     isLoading: this.props.type != 'add',
     avatar: {},
@@ -27,32 +29,33 @@ export class Form extends Component {
     }
   }
 
-  fetchData() {
-    const users = new Api('users')
-    users
-      .find(this.props.match.params.id)
-      .then(({ data }) => {
-        this.setState({ isLoading: false, user: data })
+  async fetchData() {
+    this.setState({ isLoading: true })
 
-        if (this.props.type == 'view') {
-          $('input, select').prop('disabled', true)
-        }
-      })
-      .catch(() => {
-        alert(messages.FETCH_PROFILE_FAIL)
-      })
+    const users = new Api('users')
+    try {
+      const { data } = await users.find(this.props.match.params.id)
+      this.setState({ isLoading: false, user: data, avatar: { url: data.avatar } })
+
+      if (this.props.type == 'view') {
+        $('input, select').prop('disabled', true)
+      }
+    } catch (err) {
+      alert(messages.FETCH_PROFILE_FAIL)
+      console.log(err)
+    }
   }
 
-  fetchRoles() {
+  async fetchRoles() {
     const roles = new Api('roles')
-    roles
-      .get()
-      .then(({ data }) => {
-        this.setState({ roles: data })
-      })
-      .catch(() => {
-        alert(messages.FETCH_ROLES_FAIL)
-      })
+
+    try {
+      const { data } = await roles.get()
+      this.setState({ roles: data })
+    } catch (err) {
+      console.log(err)
+      alert(messages.FETCH_ROLES_FAIL)
+    }
   }
 
   @autobind
@@ -65,19 +68,25 @@ export class Form extends Component {
   render() {
     const { onSubmit, type } = this.props
     const { avatar, roles, user, isLoading } = this.state
-    const { profile } = user
 
     return isLoading ? (
       <Loader />
     ) : (
-      <form className='mt-3' onSubmit={onSubmit}>
+      <form ref={this.form} className='mt-3' onSubmit={onSubmit}>
+        <Prompt when={type != 'view'} message='Unsaved Changes?' />
         <div className='row'>
           <div className='form-group col-4'>
-            <div className='file-upload-viewer'>
-              <img src={avatar.url} alt='' />
-            </div>
+            <img
+              className='img-thumbnail'
+              style={{ minHeight: 150 }}
+              src={
+                avatar.url ||
+                'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII='
+              }
+              alt=''
+            />
             {type != 'view' && (
-              <div className='custom-file'>
+              <div className='custom-file mt-2'>
                 <input
                   type='file'
                   className='custom-file-input'
@@ -121,18 +130,13 @@ export class Form extends Component {
               type='text'
               className='form-control'
               name='first_name'
-              defaultValue={profile.first_name}
+              defaultValue={user.first_name}
               required
             />
           </div>
           <div className='form-group col'>
             <label>Middle Name</label>
-            <input
-              type='text'
-              className='form-control'
-              name='middle_name'
-              defaultValue={profile.middle_name}
-            />
+            <input type='text' className='form-control' name='middle_name' defaultValue={user.middle_name} />
           </div>
           <div className='form-group col'>
             <label>Last Name</label>
@@ -140,7 +144,7 @@ export class Form extends Component {
               type='text'
               className='form-control'
               name='last_name'
-              defaultValue={profile.last_name}
+              defaultValue={user.last_name}
               required
             />
           </div>
@@ -162,7 +166,7 @@ export class Form extends Component {
                 className='custom-control-input'
                 name='gender'
                 value='Male'
-                defaultChecked={!profile.gender || profile.gender == 'Male'}
+                defaultChecked={!user.gender || user.gender == 'Male'}
               />
               <label htmlFor='male' className='custom-control-label'>
                 Male
@@ -173,7 +177,7 @@ export class Form extends Component {
               <label
                 htmlFor='female'
                 className='custom-control-label'
-                defaultChecked={profile.gender == 'Female'}
+                defaultChecked={user.gender == 'Female'}
               >
                 Female
               </label>
@@ -181,11 +185,11 @@ export class Form extends Component {
           </div>
           <div className='form-group col'>
             <label>Birthday</label>
-            <input type='date' className='form-control' name='birthday' defaultValue={profile.birthday} />
+            <input type='date' className='form-control' name='birthday' defaultValue={user.birthday} />
           </div>
           <div className='form-group col'>
             <label>Civil Status</label>
-            <select className='custom-select' name='civil_status' defaultValue={profile.civil_status || -1}>
+            <select className='custom-select' name='civil_status' defaultValue={user.civil_status || -1}>
               <option />
               {civilstatus.map((item, key) => (
                 <option key={key}>{item}</option>
@@ -194,7 +198,7 @@ export class Form extends Component {
           </div>
           <div className='form-group col'>
             <label>Nationality</label>
-            <select className='custom-select' name='nationality' defaultValue={profile.nationality || -1}>
+            <select className='custom-select' name='nationality' defaultValue={user.nationality || -1}>
               <option />
               {nationalities.map((item, key) => (
                 <option key={key}>{item}</option>
@@ -204,12 +208,12 @@ export class Form extends Component {
           <div className='w-100' />
           <div className='form-group col'>
             <label>Address</label>
-            <input type='text' className='form-control' name='address' defaultValue={profile.address} />
+            <input type='text' className='form-control' name='address' defaultValue={user.address} />
           </div>
           <div className='w-100' />
           <div className='form-group col'>
             <label>Email Address</label>
-            <input type='text' className='form-control' name='email' defaultValue={profile.email} />
+            <input type='text' className='form-control' name='email' defaultValue={user.email} />
           </div>
           <div className='w-100' />
           <div className='form-group col'>
@@ -218,7 +222,7 @@ export class Form extends Component {
               type='text'
               className='form-control'
               name='mobile_number'
-              defaultValue={profile.mobile_number}
+              defaultValue={user.mobile_number}
             />
           </div>
           <div className='form-group col'>
@@ -227,21 +231,21 @@ export class Form extends Component {
               type='text'
               className='form-control'
               name='telephone_number'
-              defaultValue={profile.telephone_number}
+              defaultValue={user.telephone_number}
             />
           </div>
           <div className='w-100' />
           <div className='form-group col'>
             <label>SSS</label>
-            <input type='text' className='form-control' name='sss' defaultValue={profile.sss} />
+            <input type='text' className='form-control' name='sss' defaultValue={user.sss} />
           </div>
           <div className='form-group col'>
             <label>Philhealth</label>
-            <input type='text' className='form-control' name='philhealth' defaultValue={profile.philhealth} />
+            <input type='text' className='form-control' name='philhealth' defaultValue={user.philhealth} />
           </div>
           <div className='form-group col'>
-            <label>Tin</label>
-            <input type='text' className='form-control' name='tin' defaultValue={profile.tin} />
+            <label>TIN</label>
+            <input type='text' className='form-control' name='tin' defaultValue={user.tin} />
           </div>
         </div>
         {this.props.children}

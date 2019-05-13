@@ -1,42 +1,37 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import autobind from 'autobind-decorator'
-import $ from 'jquery'
 
 import Api from '../../assets/Api'
 import Form from './Form'
 import messages from '../../strings/messages'
 import Button from '../../components/Button'
-import { parseForm } from '../../assets/Helper'
 
 export class Add extends Component {
   state = { isSubmitting: false }
 
   @autobind
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault()
 
     this.setState({ isSubmitting: true })
 
     const user = new Api('users')
-    user
-      .add(parseForm(e.target))
-      .then(() => {
-        alert(messages.SAVED_SUCCESS)
-        this.props.history.push(this.props.base)
-      })
-      .catch(err => {
-        alert(messages.SERVER_ERROR)
-        console.log(err)
-      })
-      .finally(() => {
-        this.setState({ isSubmitting: false })
-      })
+    try {
+      await user.add(parseForm(e.target))
+      alert(messages.SAVED_SUCCESS)
+      this.props.history.push(this.props.base)
+    } catch (err) {
+      alert(messages.SERVER_ERROR)
+      console.log(err)
+    } finally {
+      this.setState({ isSubmitting: false })
+    }
   }
 
   render() {
     return (
-      <div>
+      <>
         <h2>Add Employee</h2>
         <Form type='add' onSubmit={this.handleSubmit}>
           <div className='form-group'>
@@ -54,7 +49,7 @@ export class Add extends Component {
             </button>
           </div>
         </Form>
-      </div>
+      </>
     )
   }
 }
