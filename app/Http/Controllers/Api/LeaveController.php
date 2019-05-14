@@ -8,6 +8,7 @@ use App\LeaveType;
 use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class LeaveController extends Controller {
   /**
@@ -31,7 +32,7 @@ class LeaveController extends Controller {
       $data[]           = $item;
     }
 
-    return $data;
+    return Datatables::of($data)->make(true);
   }
 
   /**

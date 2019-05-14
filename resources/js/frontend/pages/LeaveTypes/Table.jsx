@@ -13,7 +13,6 @@ export class Table extends Component {
           { label: 'Paid', key: 'paid' },
           { label: 'Date Registered', key: 'created_at' }
         ]}
-        excluded={['']}
       />
     )
   }

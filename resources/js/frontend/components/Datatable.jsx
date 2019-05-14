@@ -21,7 +21,7 @@ export class Datatable extends Component {
   }
 
   dtInit() {
-    const { history } = this.props
+    const { history, api, columns } = this.props
 
     this.dTable = $(this.datatable.current).DataTable({
       select: true,
@@ -32,7 +32,7 @@ export class Datatable extends Component {
         processing: 'Loading...'
       },
       ajax: {
-        url: '/api/' + this.props.api + '?type=table',
+        url: '/api/' + api + '?type=table',
         headers: {
           Authorization: localStorage.token ? 'Bearer ' + localStorage.token : null
         },
@@ -41,7 +41,7 @@ export class Datatable extends Component {
         }
       },
       columns: [
-        ...this.props.columns.map(column => ({
+        ...columns.map(column => ({
           data: column.key,
           sortable: column.sortable !== false,
           searchable: column.searchable !== false,
@@ -92,23 +92,23 @@ export class Datatable extends Component {
 
   @autobind
   actionsButton(id) {
-    const { match } = this.props
+    const { match, excluded = [] } = this.props
 
     return (
       <>
-        {this.props.excluded.indexOf('view') == -1 && (
+        {excluded.indexOf('view') == -1 && (
           <a href={`${match.path}/${id}`} className='btn btn-primary btn-rounded btn-sm btn-block'>
             <i className='fas fa-eye' />
             View
           </a>
         )}
-        {this.props.excluded.indexOf('edit') == -1 && (
+        {excluded.indexOf('edit') == -1 && (
           <a href={`${match.path}/${id}/edit`} className='btn btn-primary btn-rounded btn-sm btn-block'>
             <i className='fas fa-edit' />
             Edit
           </a>
         )}
-        {this.props.excluded.indexOf('delete') == -1 && (
+        {excluded.indexOf('delete') == -1 && (
           <a href={`${match.path}/${id}/edit`} className='btn btn-primary btn-rounded btn-sm btn-block'>
             <i className='fas fa-trash' />
             Delete
@@ -128,12 +128,12 @@ export class Datatable extends Component {
   }
 
   render() {
-    const { columns, match } = this.props
+    const { title, columns, match, excluded = [] } = this.props
 
     return (
       <>
         <div className='clearfix mb-2'>
-          <h2 className='float-left'>{this.props.title}</h2>
+          <h2 className='float-left'>{title}</h2>
           <div className='float-right'>
             <Button
               className='btn btn-primary btn-rounded btn-icon mr-2'
@@ -142,7 +142,7 @@ export class Datatable extends Component {
             >
               <i className='fas fa-sync' />
             </Button>
-            {this.props.excluded.indexOf('add') == -1 && (
+            {excluded.indexOf('add') == -1 && (
               <Link to={`${match.path}/add`} className='btn btn-primary btn-rounded'>
                 <i className='fas fa-plus' />
                 Add
