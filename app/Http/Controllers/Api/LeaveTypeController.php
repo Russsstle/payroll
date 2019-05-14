@@ -27,7 +27,6 @@ class LeaveTypeController extends Controller {
       $data[] = $item;
     }
 
-    return ['data' => $data];
     return $data;
   }
 
@@ -41,7 +40,7 @@ class LeaveTypeController extends Controller {
     $leaveType = new LeaveType;
 
     $leaveType->fill($request->only($leaveType->getFillable()));
-    $leaveType->paid = $request->paid == 'on';
+    $leaveType->paid = $request->paid == 'on' ? 1 : 0;
 
     $leaveType->save();
     return ['success' => true];
@@ -54,16 +53,16 @@ class LeaveTypeController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function show($id) {
-    $leaveType = LeaveType::find($id);
+    // $leaveType = LeaveType::find($id);
 
-    $data = new \stdClass;
+    // $data       = new \stdClass;
+    // $data->id   = $leaveType->id;
+    // $paid       = $leaveType->paid === false ? 'false' : 'true';
+    // $data->name = $leaveType->name;
+    // $data->paid = $paid;
 
-    $paid       = $leaveType->paid === false ? 'false' : 'true';
-    $data->id   = $leaveType->id;
-    $data->name = $leaveType->name;
-    $data->paid = $paid;
-
-    return $data;
+    // return $data;
+    return LeaveType::find($id);
   }
 
   /**
@@ -77,7 +76,7 @@ class LeaveTypeController extends Controller {
     $leaveType = LeaveType::find($id);
 
     $leaveType->fill($request->only($leaveType->getFillable()));
-    $leaveType->paid = $request->paid == 'on';
+    $leaveType->paid = $request->paid == 'on' ? 1 : 0;
 
     $leaveType->save();
 

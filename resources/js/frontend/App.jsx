@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom'
 
 import Dashboard from './pages/Dashboard'
 import Employees from './pages/Employees'
+import Leaves from './pages/Leaves'
+import LeaveTypes from './pages/LeaveTypes'
 import Navbar from './components/Navbar'
 import Breadcrumb from './components/Breadcrumb'
 
@@ -26,6 +28,8 @@ export class Router extends Component {
           <Switch>
             <Route exact path='/' component={Dashboard} />
             <Route path='/employees' component={Employees} />
+            <Route path='/leaves' component={Leaves} />
+            <Route path='/leave_types' component={LeaveTypes} />
           </Switch>
         </div>
       </>

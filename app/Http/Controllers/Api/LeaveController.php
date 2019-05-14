@@ -58,16 +58,17 @@ class LeaveController extends Controller {
    */
   public function show($id) {
     $leave = Leave::find($id);
-
+    // $name  = $leave->user->profile->first_name . ' ' . $leave->user->profile->last_name;
     $item = new \stdClass;
 
-    $item->id   = $leave->id;
-    $item->name = $leave->user->profile->first_name . ' ' . $leave->user->profile->last_name;
-    $item->type = $leave->leave_type->name;
-    $item->note = $leave->note;
-    $item->from = $leave->from->format('Y-m-d');
-    $item->to   = $leave->to->format('Y-m-d');
-    return $item;
+    $item->id            = $leave->id;
+    $item->name          = $leave->user->profile->first_name . ' ' . $leave->user->profile->last_name;
+    $item->leave_type_id = $leave->leave_type_id;
+    $item->note          = $leave->note;
+    $item->from          = $leave->from->format('Y-m-d');
+    $item->to            = $leave->to->format('Y-m-d');
+
+    return response()->json($item);
   }
 
   /**

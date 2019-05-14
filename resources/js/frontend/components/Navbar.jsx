@@ -93,7 +93,7 @@ export class Navbar extends Component {
                 Settings
               </Link>
               <div className='dropdown-menu shadow' aria-labelledby='navbarDropdown'>
-                <Link className='dropdown-item' to='#'>
+                <Link className='dropdown-item' to='/leave_types'>
                   Leave Types
                 </Link>
               </div>
