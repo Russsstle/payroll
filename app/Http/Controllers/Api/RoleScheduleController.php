@@ -7,6 +7,7 @@ use App\Role;
 use App\RoleSchedule;
 use App\Schedule;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class RoleScheduleController extends Controller {
   /**
@@ -31,6 +32,10 @@ class RoleScheduleController extends Controller {
       $item->saturday  = $role->schedule->saturday;
 
       $data[] = $item;
+    }
+
+    if (request()->query('type') == 'table') {
+      return Datatables::of($data)->make(true);
     }
 
     return $data;
@@ -58,7 +63,7 @@ class RoleScheduleController extends Controller {
     $data = new \stdClass;
 
     $data->id        = $roleSchedule->id;
-    $data->role      = $roleSchedule->role()->select(['id', 'name'])->first();
+    $data->role      = $roleSchedule->role()->first()->name;
     $data->monday    = $roleSchedule->monday_time;
     $data->tuesday   = $roleSchedule->tuesday_time;
     $data->wednesday = $roleSchedule->wednesday_time;
@@ -66,9 +71,7 @@ class RoleScheduleController extends Controller {
     $data->friday    = $roleSchedule->friday_time;
     $data->saturday  = $roleSchedule->saturday_time;
 
-    $data->roles = Role::select(['id', 'name'])->get();
-
-    return $data;
+    return response()->json($data);
   }
 
   /**
@@ -81,11 +84,14 @@ class RoleScheduleController extends Controller {
   public function update(Request $request, $id) {
     $roleSchedule = RoleSchedule::find($id);
 
-    $roleSchedule->fill($request->only($roleSchedule->getFillable()));
+    $roleSchedule->monday    = $request->monday_from . '-' . $request->monday_to;
+    $roleSchedule->tuesday   = $request->tuesday_from . '-' . $request->tuesday_to;
+    $roleSchedule->wednesday = $request->wednesday_from . '-' . $request->wednesday_to;
+    $roleSchedule->thursday  = $request->thursday_from . '-' . $request->thursday_to;
+    $roleSchedule->friday    = $request->friday_from . '-' . $request->friday_to;
+    $roleSchedule->saturday  = $request->saturday_from . '-' . $request->saturday_to;
 
     $roleSchedule->save();
-
-    return ['success' => true];
   }
 
   /**

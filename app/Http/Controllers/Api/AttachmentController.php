@@ -7,6 +7,8 @@ use App\File;
 use App\Http\Controllers\Controller;
 use Auth;
 use Illuminate\Http\Request;
+use JWTAuth;
+use Yajra\Datatables\Datatables;
 
 class AttachmentController extends Controller {
   /**
@@ -15,8 +17,6 @@ class AttachmentController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $isEmployer = Auth::user()->type == 'employer';
-
     $attachments = Attachment::all();
 
     $data = [];
@@ -31,6 +31,10 @@ class AttachmentController extends Controller {
       $item->count    = $attachment->files->count();
 
       $data[] = $item;
+    }
+
+    if (request()->query('type') == 'table') {
+      return Datatables::of($data)->make(true);
     }
 
     return $data;
@@ -93,7 +97,7 @@ class AttachmentController extends Controller {
 
     $data->files = $files;
 
-    return $data;
+    return response()->json($data);
   }
 
   /**

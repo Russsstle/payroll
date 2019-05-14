@@ -28,7 +28,11 @@ class LeaveTypeController extends Controller {
       $data[] = $item;
     }
 
-    return Datatables::of($data)->make(true);
+    if (request()->query('type') == 'table') {
+      return Datatables::of($data)->make(true);
+    }
+
+    return $data;
   }
 
   /**
@@ -96,6 +100,12 @@ class LeaveTypeController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function destroy($id) {
-    //
+    $leaveType = LeaveType::find($id);
+
+    if ($leaveType->delete()) {
+      return response()->json(['success' => true]);
+    } else {
+      return response()->json(['success' => false, 'error' => 'There was an error deleting the record.']);
+    }
   }
 }

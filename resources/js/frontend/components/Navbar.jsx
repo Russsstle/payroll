@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import autobind from 'autobind-decorator'
 
-import { logout, userInfo, refreshAuth } from '../assets/Auth'
+import { logout, user, refreshAuth } from '../assets/Auth'
 
 export class Navbar extends Component {
   componentDidMount() {
@@ -22,8 +22,6 @@ export class Navbar extends Component {
   }
 
   render() {
-    const { user } = userInfo
-
     return (
       <nav className='navbar navbar-expand-lg navbar-dark primary-color'>
         <Link className='navbar-brand' to='/'>
@@ -114,7 +112,7 @@ export class Navbar extends Component {
                 {user.name}
               </Link>
               <div className='dropdown-menu dropdown-menu-right shadow' aria-labelledby='navbarDropdown'>
-                <Link className='dropdown-item' to='#'>
+                <Link className='dropdown-item' to={`/employees/${user.id}/edit`}>
                   Edit Profile
                 </Link>
                 <div className='dropdown-divider' />

@@ -4,8 +4,11 @@ import autobind from 'autobind-decorator'
 
 import Button from '../../components/Button'
 import Form from './Form'
+import ModalSalary from '../../components/ModalSalary'
+import ModalLeaves from '../../components/ModalLeaves'
 
 export class View extends Component {
+  id = this.props.match.params.id
   state = { isLoading: false }
   form = React.createRef()
 
@@ -31,11 +34,22 @@ export class View extends Component {
             <i className='fas fa-sync' />
           </Button>
         </div>
+        <button className='btn btn-primary btn-rounded' data-toggle='modal' data-target='#modalSalary'>
+          <i className='fas fa-money-bill-alt' />
+          Show Salary
+        </button>
+        <button className='btn btn-primary btn-rounded' data-toggle='modal' data-target='#modalLeaves'>
+          <i className='fas fa-money-bill-alt' />
+          Show Leaves
+        </button>
+        <br />
         <Link to={`${match.url}/edit`} className='btn btn-primary btn-rounded'>
           <i className='fas fa-edit' />
           Edit
         </Link>
         <Form wrappedComponentRef={this.form} type='view' />
+        <ModalSalary id='modalSalary' data-id={this.id} />
+        <ModalLeaves id='modalLeaves' data-id={this.id} />
       </>
     )
   }

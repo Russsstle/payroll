@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import autobind from 'autobind-decorator'
 
 import Attendance from '../components/Attendance'
+import ModalAllForms from '../components/ModalAllForms'
+import ModalAllSalaries from '../components/ModalAllSalaries'
 
 class Dashboard extends Component {
   attendance = React.createRef()
@@ -37,16 +39,22 @@ class Dashboard extends Component {
             </div>
           </div>
           <div className='col-sm-12 col-md-4 dashboard-tile'>
-            <div className='card shadow'>
-              <div className='card-body'>Generate Government Forms</div>
-            </div>
+            <a data-toggle='modal' data-target='#modalAllForms'>
+              <div className='card shadow'>
+                <div className='card-body'>Generate Government Forms</div>
+              </div>
+            </a>
           </div>
           <div className='col-sm-12 col-md-4 dashboard-tile'>
-            <div className='card shadow'>
-              <div className='card-body'>Generate Monthly Summary</div>
-            </div>
+            <a data-toggle='modal' data-target='#modalAllSalaries'>
+              <div className='card shadow'>
+                <div className='card-body'>Generate Monthly Summary</div>
+              </div>
+            </a>
           </div>
         </div>
+        <ModalAllForms id='modalAllForms' />
+        <ModalAllSalaries id='modalAllSalaries' />
         <Attendance ref={this.attendance} />
       </>
     )

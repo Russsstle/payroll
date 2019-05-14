@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
+import Navbar from './components/Navbar'
+import Breadcrumb from './components/Breadcrumb'
 import Dashboard from './pages/Dashboard'
 import Employees from './pages/Employees'
 import Leaves from './pages/Leaves'
 import LeaveTypes from './pages/LeaveTypes'
-import Navbar from './components/Navbar'
-import Breadcrumb from './components/Breadcrumb'
+import Attachments from './pages/Attachments'
+import Schedules from './pages/Schedules'
+import Salaries from './pages/Salaries'
 
 export class Router extends Component {
   state = {
@@ -30,6 +33,9 @@ export class Router extends Component {
             <Route path='/employees' component={Employees} />
             <Route path='/leaves' component={Leaves} />
             <Route path='/leave_types' component={LeaveTypes} />
+            <Route path='/attachments' component={Attachments} />
+            <Route path='/schedules' component={Schedules} />
+            <Route path='/salaries' component={Salaries} />
           </Switch>
         </div>
       </>

@@ -47,7 +47,7 @@ export class Login extends Component {
                 className='fadeIn second'
                 name='username'
                 placeholder='Username'
-                autoComplete='off'
+                autoFocus
                 required
               />
               <input
@@ -55,7 +55,6 @@ export class Login extends Component {
                 className='fadeIn third'
                 name='password'
                 placeholder='Password'
-                autoComplete='off'
                 required
               />
               <Button className='fadeIn fourth btnLogin' loading={this.state.isLogging}>

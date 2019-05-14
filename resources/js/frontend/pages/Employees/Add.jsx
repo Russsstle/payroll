@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import autobind from 'autobind-decorator'
 
 import Api from '../../assets/Api'
+import { parseForm } from '../../assets/Helper'
 import Form from './Form'
 import messages from '../../strings/messages'
 import Button from '../../components/Button'

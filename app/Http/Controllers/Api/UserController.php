@@ -20,26 +20,28 @@ class UserController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
+
+    $users = User::all();
+
+    $data = [];
+
+    foreach ($users as $user) {
+      $item = new \stdClass;
+
+      $item->id         = $user->id;
+      $item->avatar     = asset($user->profile->avatar);
+      $item->name       = $user->profile->name;
+      $item->role_name  = $user->role->name;
+      $item->created_at = $user->profile->created_at->format('F d, Y h:i:s A');
+
+      $data[] = $item;
+    }
+
     if (request()->query('type') == 'table') {
-
-      $users = User::all();
-
-      $data = [];
-
-      foreach ($users as $user) {
-        $item = new \stdClass;
-
-        $item->id         = $user->id;
-        $item->avatar     = asset($user->profile->avatar);
-        $item->name       = $user->profile->name;
-        $item->role_name  = $user->role->name;
-        $item->created_at = $user->profile->created_at->format('F d, Y h:i:s A');
-
-        $data[] = $item;
-      }
-
       return Datatables::of($data)->make(true);
     }
+
+    return $data;
   }
 
   /**

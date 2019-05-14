@@ -1,8 +1,7 @@
 {
   "SAVED_SUCCESS": "Saved Successfully",
+  "DELETE_SUCCESS": "Deleted Successfully",
+  "DELETE_FAIL": "There was an error deleting it.",
   "SERVER_ERROR": "Server Error. Please try again.",
-  "FETCH_PROFILE_FAIL": "Failed to get profile. Please reload the page.",
-  "FETCH_LEAVE_FAIL": "Failed to get leaves. Please reload the page.",
-  "FETCH_LEAVE_TYPE_FAIL": "Failed to get leave types. Please reload the page.",
-  "FETCH_ROLES_FAIL": "Failed to get roles. Please reload the page."
+  "FETCH_FAIL": "Failed to fetch data."
 }

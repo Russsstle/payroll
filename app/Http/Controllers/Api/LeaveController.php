@@ -21,18 +21,23 @@ class LeaveController extends Controller {
     $data   = [];
 
     foreach ($leaves as $leave) {
-      $item             = new \stdClass;
-      $item->id         = $leave->id;
-      $item->name       = $leave->user->profile->first_name . ' ' . $leave->user->profile->last_name;
-      $item->type       = $leave->leave_type->name;
-      $item->note       = $leave->note;
-      $item->from       = $leave->from->format('F d, Y');
-      $item->to         = $leave->to->format('F d, Y');
-      $item->created_at = $leave->created_at->format('F d, Y h:i:s A');
-      $data[]           = $item;
+      $item              = new \stdClass;
+      $item->id          = $leave->id;
+      $item->employee_id = $leave->user->id;
+      $item->name        = $leave->user->profile->first_name . ' ' . $leave->user->profile->last_name;
+      $item->type        = $leave->leave_type->name;
+      $item->note        = $leave->note;
+      $item->from        = $leave->from->format('F d, Y');
+      $item->to          = $leave->to->format('F d, Y');
+      $item->created_at  = $leave->created_at->format('F d, Y h:i:s A');
+      $data[]            = $item;
     }
 
-    return Datatables::of($data)->make(true);
+    if (request()->query('type') == 'table') {
+      return Datatables::of($data)->make(true);
+    }
+
+    return $data;
   }
 
   /**
@@ -57,12 +62,32 @@ class LeaveController extends Controller {
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function show($id) {
+  public function show(Request $request, $id) {
+    if ($request->query('type') == 'personal') {
+      $leaves = User::find($id)->leaves->all();
+
+      $data = [];
+
+      foreach ($leaves as $leave) {
+        $item = new \stdClass;
+
+        $item->type       = $leave->leave_type->name;
+        $item->note       = $leave->note;
+        $item->from       = $leave->from->format('F d, Y');
+        $item->to         = $leave->to->format('F d, Y');
+        $item->created_at = $leave->created_at->format('F d, Y h:i:s A');
+        $data[]           = $item;
+      }
+
+      return $data;
+    }
+
     $leave = Leave::find($id);
     // $name  = $leave->user->profile->first_name . ' ' . $leave->user->profile->last_name;
     $item = new \stdClass;
 
     $item->id            = $leave->id;
+    $item->user_id       = $leave->user_id;
     $item->name          = $leave->user->profile->first_name . ' ' . $leave->user->profile->last_name;
     $item->leave_type_id = $leave->leave_type_id;
     $item->note          = $leave->note;
@@ -70,6 +95,7 @@ class LeaveController extends Controller {
     $item->to            = $leave->to->format('Y-m-d');
 
     return response()->json($item);
+
   }
 
   /**
@@ -81,7 +107,7 @@ class LeaveController extends Controller {
    */
   public function update(Request $request, $id) {
     $leave = Leave::find($id);
-
+    $leave->user()->associate(User::find($request->user_id));
     $leave->leave_type()->associate(LeaveType::find($request->leave_type_id));
     $leave->fill($request->only($leave->getFillable()));
     $leave->save();
@@ -103,6 +129,12 @@ class LeaveController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function destroy($id) {
-    //
+    $user = Leave::find($id);
+
+    if ($user->delete()) {
+      return response()->json(['success' => true]);
+    } else {
+      return response()->json(['success' => false, 'error' => 'There was an error deleting the record.']);
+    }
   }
 }

@@ -6,6 +6,7 @@ import 'datatables.net-plugins/features/searchHighlight/dataTables.searchHighlig
 import 'mdbootstrap/js/mdb'
 import 'mdbootstrap/js/addons/datatables'
 import 'mdbootstrap/js/addons/datatables-select'
+import 'mdbootstrap/js/addons/masonry.pkgd.min'
 
 import React from 'react'
 import { AppContainer } from 'react-hot-loader'

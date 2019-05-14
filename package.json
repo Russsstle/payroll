@@ -25,6 +25,7 @@
     "sass-loader": "^7.1.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.2",
     "animate.css": "^3.7.0",
     "axios": "^0.18",
     "bootstrap": "^4.1.0",

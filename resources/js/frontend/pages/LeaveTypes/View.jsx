@@ -9,7 +9,7 @@ export class View extends Component {
 
     return (
       <div>
-        <h2>View Employee</h2>
+        <h2>View Leave Type</h2>
         <Link to={`${match.url}/edit`} className='btn btn-primary btn-rounded'>
           <i className='fas fa-edit' />
           Edit

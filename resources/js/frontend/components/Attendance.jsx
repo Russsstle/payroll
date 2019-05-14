@@ -11,8 +11,9 @@ export class Attendance extends Component {
   state = { isLoading: true, data: [], searchedData: [] }
 
   componentDidMount() {
-    $(document).click(function(e) {
+    $(document).on('mousedown.hideAttendance', function(e) {
       if (
+        e.which == 1 &&
         $(e.target).closest('.sidebar').length == 0 &&
         !$(e.target).hasClass('fas') &&
         $('.sidebar').css('width') != '0px'
@@ -23,7 +24,7 @@ export class Attendance extends Component {
   }
 
   componentWillUnmount() {
-    $(document).unbind('click')
+    $(document).unbind('click.hideAttendance')
   }
 
   toggle() {
@@ -80,14 +81,14 @@ export class Attendance extends Component {
           </Button>
         </div>
         {this.state.isLoading ? (
-          <Loader />
+          <Loader align='center' />
         ) : (
           <SimpleBar>
             <ul className='list-group'>
               {(searchedText ? searchedData : data).map((item, key) => (
                 <li key={key} className='list-group-item'>
                   {item.name}
-                  <i class='fas fa-circle' style={{ color: item.logged ? '#42b72a' : '#ccc' }} />
+                  <i className='fas fa-circle' style={{ color: item.logged ? '#42b72a' : '#ccc' }} />
                 </li>
               ))}
             </ul>

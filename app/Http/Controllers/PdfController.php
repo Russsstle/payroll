@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\Role;
-use App\Userr;
+use App\User;
 use Illuminate\Http\Request;
 use setasign\Fpdi\Fpdi;
 

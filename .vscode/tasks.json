@@ -15,6 +15,7 @@
       "label": "Hot Reload",
       "type": "shell",
       "command": "npm run hot",
+      "problemMatcher": [],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -24,6 +25,7 @@
       "label": "Build Production",
       "type": "shell",
       "command": "npm run prod",
+      "problemMatcher": [],
       "group": {
         "kind": "build",
         "isDefault": true

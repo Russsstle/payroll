@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Prompt } from 'react-router-dom'
 import autobind from 'autobind-decorator'
 import { withRouter } from 'react-router-dom'
+import Barcode from 'react-barcode'
 
 import Api from '../../assets/Api'
 import Loader from '../../components/Loader'
@@ -11,6 +11,7 @@ import civilstatus from '../../strings/civilstatus'
 import messages from '../../strings/messages'
 
 export class Form extends Component {
+  id = this.props.match.params.id
   form = React.createRef()
   state = {
     isLoading: this.props.type != 'add',
@@ -34,14 +35,16 @@ export class Form extends Component {
 
     const users = new Api('users')
     try {
-      const { data } = await users.find(this.props.match.params.id)
+      const { data } = await users.find(this.id)
       this.setState({ isLoading: false, user: data, avatar: { url: data.avatar } })
 
       if (this.props.type == 'view') {
-        $('input, select').prop('disabled', true)
+        $('form')
+          .find('input, select')
+          .prop('disabled', true)
       }
     } catch (err) {
-      alert(messages.FETCH_PROFILE_FAIL)
+      alert(messages.FETCH_FAIL)
       console.log(err)
     }
   }
@@ -54,7 +57,7 @@ export class Form extends Component {
       this.setState({ roles: data })
     } catch (err) {
       console.log(err)
-      alert(messages.FETCH_ROLES_FAIL)
+      alert(messages.FETCH_FAIL)
     }
   }
 
@@ -73,19 +76,18 @@ export class Form extends Component {
       <Loader />
     ) : (
       <form ref={this.form} className='mt-3' onSubmit={onSubmit}>
-        <Prompt when={type != 'view'} message='Unsaved Changes?' />
         <div className='row'>
           <div className='form-group col-4'>
             <img
               className='img-thumbnail'
-              style={{ minHeight: 150 }}
+              style={{ height: 200 }}
               src={
                 avatar.url ||
                 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAoMBgDTD2qgAAAAASUVORK5CYII='
               }
               alt=''
             />
-            {type != 'view' && (
+            {type != 'view' ? (
               <div className='custom-file mt-2'>
                 <input
                   type='file'
@@ -98,6 +100,8 @@ export class Form extends Component {
                   {avatar.name || 'Upload Image'}
                 </label>
               </div>
+            ) : (
+              <Barcode value={user.uid} height={50} displayValue={false} />
             )}
           </div>
           <div className='w-100' />
@@ -106,7 +110,7 @@ export class Form extends Component {
             <input
               type='text'
               className='form-control'
-              name='username'
+              name='user_id'
               defaultValue={user.username}
               disabled={type == 'edit'}
               required

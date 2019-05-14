@@ -8,52 +8,64 @@ import Loader from '../../components/Loader'
 import messages from '../../strings/messages'
 
 export class Form extends Component {
+  id = this.props.match.params.id
   state = {
     isLoading: this.props.type != 'add',
     leaveTypes: [],
-    leave: {}
+    leave: {},
+    users: []
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     Waves.attach('.btn')
 
-    this.fetchLeaveType()
+    await Promise.all([this.fetchLeaveType(), this.fetchUser()])
 
     if (this.props.type == 'view' || this.props.type == 'edit') {
       this.fetchData()
     }
   }
 
-  fetchData() {
-    const leaves = new Api('leaves')
-    leaves
-      .find(this.props.match.params.id)
-      .then(({ data }) => {
-        this.setState({ isLoading: false, leave: data })
-        if (this.props.type == 'view') {
-          $('input, select').prop('disabled', true)
-        }
-      })
-      .catch(() => {
-        alert(messages.FETCH_LEAVE_FAIL)
-      })
+  async fetchData() {
+    const leave = new Api('leaves')
+    try {
+      const { data } = await leave.find(this.id)
+      this.setState({ isLoading: false, leave: data })
+      if (this.props.type == 'view') {
+        $('form')
+          .find('input, select')
+          .prop('disabled', true)
+      }
+    } catch (err) {
+      alert(messages.FETCH_FAIL)
+      console.log(err)
+    }
   }
 
-  fetchLeaveType() {
-    const leaveTypes = new Api('leaveTypes')
-    leaveTypes
-      .get()
-      .then(({ data }) => {
-        this.setState({ leaveTypes: data })
-      })
-      .catch(() => {
-        alert(messages.FETCH_LEAVE_TYPE_FAIL)
-      })
+  async fetchLeaveType() {
+    const leaveTypes = new Api('leave_types')
+    try {
+      const { data } = await leaveTypes.get()
+
+      this.setState({ leaveTypes: data })
+    } catch {
+      alert(messages.FETCH_FAIL)
+    }
+  }
+  async fetchUser() {
+    const users = new Api('users')
+    try {
+      const { data } = await users.get()
+
+      this.setState({ users: data })
+    } catch {
+      alert(messages.FETCH_FAIL)
+    }
   }
 
   render() {
     const { onSubmit, type } = this.props
-    const { leaveTypes, leave, isLoading } = this.state
+    const { leaveTypes, leave, isLoading, users } = this.state
 
     return isLoading ? (
       <Loader />
@@ -63,14 +75,20 @@ export class Form extends Component {
           <div className='w-100' />
           <div className='form-group col'>
             <label>Employee</label>
-            <input
-              type='text'
-              className='form-control'
-              name='name'
-              defaultValue={leave.name}
+            <select
+              className='custom-select'
+              name='user_id'
+              defaultValue={leave.user_id}
               disabled={type == 'edit'}
               required
-            />
+            >
+              <option />
+              {users.map((user, key) => (
+                <option key={key} value={user.id}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
           </div>
           <div className='form-group col'>
             <label>Type</label>
@@ -91,7 +109,7 @@ export class Form extends Component {
           <div className='w-100' />
           <div className='form-group col'>
             <label>Note</label>
-            <input type='text' className='form-control' name='note' defaultValue={leave.note} required />
+            <textarea class='form-control' name='note' defaultValue={leave.note} rows='10' />
           </div>
           <div className='w-100' />
           <div className='form-group col'>

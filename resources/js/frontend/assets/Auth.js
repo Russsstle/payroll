@@ -3,7 +3,7 @@ import Axios from './Axios'
 const axios = new Axios()
 
 export var refreshAuth = null
-export var userInfo = null
+export var user = null
 
 export async function login(data) {
   return await axios.post('/login', data)
@@ -16,8 +16,8 @@ export async function logout() {
   localStorage.clear()
 }
 
-export function setUserInfo(info) {
-  userInfo = info
+export function setUser(info) {
+  user = info
 }
 
 export function setRefreshAuth(auth) {

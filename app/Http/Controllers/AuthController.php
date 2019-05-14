@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use JWTAuth;
@@ -56,6 +55,6 @@ class AuthController extends Controller {
       'avatar'   => asset($user->profile->avatar)
     ];
 
-    return response()->json(['user' => $data]);
+    return $data;
   }
 }

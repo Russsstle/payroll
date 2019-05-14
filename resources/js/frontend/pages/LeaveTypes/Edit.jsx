@@ -7,34 +7,29 @@ import Form from './Form'
 import messages from '../../strings/messages'
 import Button from '../../components/Button'
 import { parseForm } from '../../assets/Helper'
-import { refreshAuth, userInfo } from '../../assets/Auth'
 
 export class Edit extends Component {
   id = this.props.match.params.id
   state = { isSubmitting: false }
 
   @autobind
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault()
 
     this.setState({ isSubmitting: true })
 
-    const user = new Api('leave_types')
-    user
-      .update(this.id, parseForm(e.target))
-      .then(() => {
-        if (this.id == userInfo.user.id) refreshAuth()
-
-        alert(messages.SAVED_SUCCESS)
-        this.props.history.push(this.props.base)
-      })
-      .catch(err => {
-        alert(messages.SERVER_ERROR)
-        console.log(err)
-      })
-      .finally(() => {
-        this.setState({ isSubmitting: false })
-      })
+    const leavetypes = new Api('leave_types')
+    try {
+      await leavetypes.update(this.id, parseForm(e.target))
+      if (this.id == userInfo.user.id) refreshAuth()
+      alert(messages.SAVED_SUCCESS)
+      this.props.history.push(this.props.base)
+    } catch (err) {
+      alert(messages.SERVER_ERROR)
+      console.log(err)
+    } finally {
+      this.setState({ isSubmitting: false })
+    }
   }
 
   render() {

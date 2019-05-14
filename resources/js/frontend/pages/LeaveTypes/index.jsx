@@ -6,7 +6,7 @@ import Add from './Add'
 import View from './View'
 import Edit from './Edit'
 
-export class Employees extends Component {
+export class LeaveTypes extends Component {
   render() {
     const { match } = this.props
 
@@ -21,4 +21,4 @@ export class Employees extends Component {
   }
 }
 
-export default Employees
+export default LeaveTypes

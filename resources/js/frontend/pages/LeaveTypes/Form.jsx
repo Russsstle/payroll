@@ -8,6 +8,7 @@ import Loader from '../../components/Loader'
 import messages from '../../strings/messages'
 
 export class Form extends Component {
+  id = this.props.match.params.id
   state = {
     isLoading: this.props.type != 'add',
     leaveType: {},
@@ -23,19 +24,19 @@ export class Form extends Component {
     }
   }
 
-  fetchData() {
-    const leavetypes = new Api('leave_types')
-    leavetypes
-      .find(this.props.match.params.id)
-      .then(({ data }) => {
-        this.setState({ isLoading: false, leaveType: data })
-        if (this.props.type == 'view') {
-          $('input, select').prop('disabled', true)
-        }
-      })
-      .catch(() => {
-        alert(messages.FETCH_LEAVETYPE_FAIL)
-      })
+  async fetchData() {
+    const leaveTypes = new Api('leave_types')
+    try {
+      const { data } = await leaveTypes.find(this.id)
+      this.setState({ isLoading: false, leaveType: data })
+      if (this.props.type == 'view') {
+        $('form')
+          .find('input, select')
+          .prop('disabled', true)
+      }
+    } catch {
+      alert(messages.FETCH_LEAVETYPE_FAIL)
+    }
   }
 
   render() {

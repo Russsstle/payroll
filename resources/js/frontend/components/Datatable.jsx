@@ -13,6 +13,7 @@ export class Datatable extends Component {
 
   state = {
     isLoading: false,
+    isDeleting: false,
     data: []
   }
 
@@ -62,12 +63,18 @@ export class Datatable extends Component {
         }
       ],
       fnDrawCallback: () => {
+        const remove = this.delete
+
         Waves.attach('.btn')
         $(this.datatable.current)
           .find('a')
           .click(function(e) {
-            e.preventDefault()
-            history.push($(this).attr('href'))
+            if ($(this).attr('href')) {
+              e.preventDefault()
+              history.push($(this).attr('href'))
+            } else if ($(this).hasClass('btn-delete')) {
+              remove($(this).data('id'))
+            }
           })
       },
       initComplete: () => {
@@ -91,6 +98,20 @@ export class Datatable extends Component {
   }
 
   @autobind
+  async delete(id) {
+    if (confirm('Are you sure to you want to delete it?')) {
+      try {
+        await this.api.remove(id)
+        alert(messages.DELETE_SUCCESS)
+        this.dTable.ajax.reload()
+      } catch (err) {
+        console.log(err)
+        alert(messages.DELETE_FAIL)
+      }
+    }
+  }
+
+  @autobind
   actionsButton(id) {
     const { match, excluded = [] } = this.props
 
@@ -109,7 +130,7 @@ export class Datatable extends Component {
           </a>
         )}
         {excluded.indexOf('delete') == -1 && (
-          <a href={`${match.path}/${id}/edit`} className='btn btn-primary btn-rounded btn-sm btn-block'>
+          <a className='btn btn-primary btn-rounded btn-sm btn-block btn-delete' data-id={id}>
             <i className='fas fa-trash' />
             Delete
           </a>

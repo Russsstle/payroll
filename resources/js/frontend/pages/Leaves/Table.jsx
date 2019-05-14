@@ -9,13 +9,12 @@ export class Table extends Component {
         title='Leaves'
         columns={[
           { label: 'ID', key: 'id' },
-          { label: 'Type', key: 'type' },
-          { label: 'Employee', key: 'name' },
+          { label: 'Employee Name', key: 'name' },
+          { label: 'Note', key: 'note' },
           { label: 'From', key: 'from' },
           { label: 'To', key: 'to' },
           { label: 'Issued', key: 'created_at' }
         ]}
-        excluded={['']}
       />
     )
   }

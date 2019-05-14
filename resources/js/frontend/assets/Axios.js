@@ -2,11 +2,11 @@ import axios, { CancelToken } from 'axios'
 
 export default class Axios {
   constructor(url) {
-    const token = sessionStorage.token
-
     this.axios = axios.create({
       baseURL: url,
-      Authorization: token ? 'Bearer ' + token : null
+      headers: {
+        Authorization: localStorage.token ? 'Bearer ' + localStorage.token : null
+      }
     })
 
     this.cancelToken = CancelToken.source()

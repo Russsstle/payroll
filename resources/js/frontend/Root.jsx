@@ -4,7 +4,7 @@ import { AuthProvider, AuthConsumer } from 'react-check-auth'
 
 import Login from './pages/Login'
 import App from './App'
-import { setUserInfo, setRefreshAuth } from './assets/Auth'
+import { setUser, setRefreshAuth } from './assets/Auth'
 
 export class Root extends Component {
   constructor(props) {
@@ -25,7 +25,7 @@ export class Root extends Component {
         <AuthConsumer>
           {({ isLoading, refreshAuth, userInfo, error }) => {
             setRefreshAuth(refreshAuth)
-            setUserInfo(userInfo)
+            setUser(userInfo)
 
             return isLoading || (!userInfo && !error) ? (
               <div className='loader'>

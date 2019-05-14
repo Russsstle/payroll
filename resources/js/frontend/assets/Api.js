@@ -20,7 +20,6 @@ export default class Api extends Axios {
     return await this.axios.post(this.name + '/' + id, data)
   }
   async remove(id) {
-    data.append('_method', 'DELETE')
-    return await this.axios.post(this.name + '/' + id, data)
+    return await this.axios.post(this.name + '/' + id, { _method: 'DELETE' })
   }
 }

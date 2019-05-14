@@ -7,6 +7,7 @@ use App\Role;
 use App\RoleSalary;
 use App\Salary;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class RoleSalaryController extends Controller {
   /**
@@ -27,6 +28,10 @@ class RoleSalaryController extends Controller {
       $item->monthly = $role->salary->monthly;
 
       $data[] = $item;
+    }
+
+    if (request()->query('type') == 'table') {
+      return Datatables::of($data)->make(true);
     }
 
     return $data;
@@ -54,13 +59,11 @@ class RoleSalaryController extends Controller {
     $data = new \stdClass;
 
     $data->id      = $roleSalary->id;
-    $data->role    = $roleSalary->role()->select(['id', 'name'])->first();
+    $data->role    = $roleSalary->role()->first()->name;
     $data->daily   = $roleSalary->daily;
     $data->monthly = $roleSalary->monthly;
 
-    $data->roles = Role::select(['id', 'name'])->get();
-
-    return $data;
+    return response()->json($data);
   }
 
   /**

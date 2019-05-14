@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import autobind from 'autobind-decorator'
-import $ from 'jquery'
 
 import Api from '../../assets/Api'
 import Form from './Form'
@@ -13,25 +12,22 @@ export class Add extends Component {
   state = { isSubmitting: false }
 
   @autobind
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault()
 
     this.setState({ isSubmitting: true })
 
-    const user = new Api('leave_types')
-    user
-      .add(parseForm(e.target))
-      .then(() => {
-        alert(messages.SAVED_SUCCESS)
-        this.props.history.push(this.props.base)
-      })
-      .catch(err => {
-        alert(messages.SERVER_ERROR)
-        console.log(err)
-      })
-      .finally(() => {
-        this.setState({ isSubmitting: false })
-      })
+    const leavetype = new Api('leave_types')
+    try {
+      await leavetype.add(parseForm(e.target))
+      alert(messages.SAVED_SUCCESS)
+      this.props.history.push(this.props.base)
+    } catch (err) {
+      alert(messages.SERVER_ERROR)
+      console.log(err)
+    } finally {
+      this.setState({ isSubmitting: false })
+    }
   }
 
   render() {
