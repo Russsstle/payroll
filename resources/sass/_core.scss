@@ -1,0 +1,14 @@
+.form-control,
+.custom-select,
+.custom-file-input {
+  box-shadow: none;
+
+  &:focus,
+  &:focus ~ .custom-file-label {
+    box-shadow: none;
+  }
+}
+
+.custom-file-input {
+  cursor: pointer;
+}

@@ -55,24 +55,7 @@ class AttendanceController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request, $id) {
-    $code = $request->code;
 
-    $user = User::where('uid', $code)->firstOrFail();
-
-    $lastStatus = $user->attendances()->lastStatus();
-
-    $attendance = new Attendance;
-
-    $attendance->user()->associate($user);
-    $attendance->status = $lastStatus == 'LOGGED_IN' ? 'LOGGED_OUT' : 'LOGGED_IN';
-
-    $attendance->save();
-    return [
-      'name'      => $user->profile->name,
-      'avatar'    => $user->profile->avatar ? asset('uploads/' . $user->profile->avatar) : null,
-      'status'    => $attendance->status,
-      'timestamp' => $attendance->created_at
-    ];
   }
 
   /**

@@ -11,6 +11,20 @@
 |
  */
 
+Route::group([
+  'domain' => 'attendance.{all}',
+  'where'  => [
+    'all' => '.*'
+  ]
+], function () {
+  Route::post('/barcode', 'AttendanceController@barcode');
+  Route::post('/manual', 'AttendanceController@manual');
+
+  Route::get('/{all?}', function () {
+    return view('index', ['title' => 'Attendance System', 'js' => 'attendance']);
+  })->where('all', '.*');
+});
+
 Route::get('/auth', 'AuthController@getAuthenticatedUser');
 Route::post('/login', 'AuthController@login');
 Route::post('/logout', 'AuthController@logout');
@@ -31,5 +45,5 @@ Route::prefix('/generate')->group(function () {
 });
 
 Route::get('/{all?}', function () {
-  return view('index');
+  return view('index', ['title' => 'Payroll System', 'js' => 'admin']);
 })->where('all', '.*');

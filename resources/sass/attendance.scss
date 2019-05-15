@@ -1,0 +1,53 @@
+@import '_variables';
+@import '~bootstrap/scss/bootstrap';
+@import '~mdbootstrap/scss/mdb';
+@import '~simplebar/dist/simplebar.css';
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '_core';
+
+html,
+body,
+#app,
+.attendance {
+  height: 100%;
+}
+
+body {
+  background-image: url('../images/attendance-bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.attendance {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .animated {
+    display: none;
+  }
+
+  .card {
+    width: 50%;
+
+    @media screen and (max-width: 767px) {
+      width: 90%;
+    }
+  }
+
+  .btn-rounded {
+    border-radius: 50%;
+    padding: 5px;
+    width: 30px;
+  }
+}

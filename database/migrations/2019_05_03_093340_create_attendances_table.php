@@ -16,6 +16,8 @@ class CreateAttendancesTable extends Migration {
       $table->bigInteger('user_id')->unsigned();
       $table->foreign('user_id')->references('id')->on('users');
       $table->enum('status', ['LOGGED_IN', 'LOGGED_OUT']);
+      $table->string('latitude')->nullable();
+      $table->string('longitude')->nullable();
       $table->timestamps();
     });
   }

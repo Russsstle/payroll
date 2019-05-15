@@ -10,7 +10,7 @@ class Attendance extends Model {
   /**
    * @var array
    */
-  protected $fillable = ['status'];
+  protected $fillable = ['status', 'latitude', 'longitude'];
 
   /**
    * @return mixed
