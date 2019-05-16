@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
-import Navbar from '../components/Navbar'
-import Breadcrumb from '../components/Breadcrumb'
-import Dashboard from './pages/Dashboard'
-import Employees from './pages/Employees'
-import Leaves from './pages/Leaves'
-import LeaveTypes from './pages/LeaveTypes'
-import Attachments from './pages/Attachments'
-import Schedules from './pages/Schedules'
-import Salaries from './pages/Salaries'
+import Navbar from '../core/components/Navbar'
+import Breadcrumb from '../core/components/Breadcrumb'
+import Dashboard from '../core/pages/Dashboard'
+import Employees from '../core/pages/Employees'
+import Leaves from '../core/pages/Leaves'
+import LeaveTypes from '../core/pages/LeaveTypes'
+import Attachments from '../core/pages/Attachments'
+import Schedules from '../core/pages/Schedules'
+import Salaries from '../core/pages/Salaries'
+import Attendances from '../core/pages/Attendances'
+import EditProfile from '../core/pages/EditProfile'
+import ChangePassword from '../core/pages/ChangePassword'
 
 export class Router extends Component {
   state = {
@@ -36,6 +39,9 @@ export class Router extends Component {
             <Route path='/attachments' component={Attachments} />
             <Route path='/schedules' component={Schedules} />
             <Route path='/salaries' component={Salaries} />
+            <Route path='/attendances' component={Attendances} />
+            <Route path='/edit_profile' component={EditProfile} />
+            <Route path='/change_password' component={ChangePassword} />
           </Switch>
         </div>
       </>

@@ -12,3 +12,27 @@
 .custom-file-input {
   cursor: pointer;
 }
+
+.btn {
+  &.btn-rounded {
+    border-radius: 10em;
+  }
+  &.btn-icon {
+    width: 47px;
+    padding: 0.84rem 0.84rem;
+  }
+  &:not(.btn-icon) .fas {
+    @extend .mr-1;
+  }
+}
+
+.custom-select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -ms-progress-appearance: none;
+  appearance: none;
+}
+
+.btn-block + .btn-block {
+  margin-top: 0.5rem !important;
+}

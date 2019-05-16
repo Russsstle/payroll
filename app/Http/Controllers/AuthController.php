@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use JWTAuth;
@@ -13,6 +14,10 @@ class AuthController extends Controller {
    * @return token
    */
   public function login() {
+    if (User::where('username', request()->username)->first()->role->name != request()->type) {
+      return response()->json(['message' => 'Invalid Username and/or Password'], 401);
+    }
+
     if (!$token = auth()->attempt(request()->only(['username', 'password']))) {
       return response()->json(['message' => 'Invalid Username and/or Password'], 401);
     }
@@ -50,6 +55,7 @@ class AuthController extends Controller {
 
     $data = [
       'id'       => $user->id,
+      'type'     => $user->role->name,
       'username' => $user->username,
       'name'     => $user->profile->name,
       'avatar'   => asset($user->profile->avatar)

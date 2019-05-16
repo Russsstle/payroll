@@ -9,6 +9,7 @@ use App\Salary;
 use App\Schedule;
 use App\SSS;
 use App\User;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\Datatables\Datatables;
@@ -107,7 +108,10 @@ class UserController extends Controller {
     ]);
 
     $user = User::find($id);
-    $user->role()->associate(Role::find($request->role_id));
+
+    if ($request->role_id) {
+      $user->role()->associate(Role::find($request->role_id));
+    }
 
     $user->fill($request->only($user->getFillable()));
     $user->save();
@@ -136,5 +140,17 @@ class UserController extends Controller {
    */
   public function destroy($id) {
     //
+  }
+
+  public function changePassword() {
+    $user = auth()->user();
+
+    if (!Hash::check(request()->oldPassword, $user->password)) {
+      abort(401);
+    }
+
+    $user->password = request()->newPassword;
+
+    $user->save();
   }
 }

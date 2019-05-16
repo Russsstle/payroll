@@ -40,6 +40,69 @@ class UsersTableSeeder extends Seeder {
     $profile->tin              = '1234567891234';
     $profile->save();
 
+    $user = new User;
+
+    $user->uid = $user->generateUid();
+    $user->role()->associate(Role::where('name', 'User')->first());
+    $user->username = 'neonspectrum';
+    $user->password = '1234';
+    $user->save();
+
+    $profile = new Profile;
+
+    $profile->user()->associate($user);
+    $profile->first_name       = 'Manny Alejandro';
+    $profile->middle_name      = 'Andrecio';
+    $profile->last_name        = 'Young';
+    $profile->gender           = 'Male';
+    $profile->nationality      = 'Filipino';
+    $profile->birthday         = '1999-01-04';
+    $profile->civil_status     = 'Single';
+    $profile->mobile_number    = '09772373397';
+    $profile->telephone_number = '242-5074';
+    $profile->email            = 'youngskymann@gmail.com';
+    $profile->address          = 'Manila City';
+    $profile->sss              = '2234124125723';
+    $profile->pagibig          = '5248344125723';
+    $profile->philhealth       = '1232221232238';
+    $profile->tin              = '1234567891234';
+    $profile->save();
+
+    $user = new User;
+
+    $user->uid = $user->generateUid();
+    $user->role()->associate(Role::where('name', 'User')->first());
+    $user->username = 'russell';
+    $user->password = '1234';
+    $user->save();
+
+    $profile = new Profile;
+
+    $profile->user()->associate($user);
+    $profile->first_name       = 'Russell John';
+    $profile->middle_name      = 'Bacal';
+    $profile->last_name        = 'Santos';
+    $profile->nationality      = 'Filipino';
+    $profile->gender           = 'Male';
+    $profile->birthday         = '1998-11-19';
+    $profile->civil_status     = 'Single';
+    $profile->mobile_number    = '09194512311';
+    $profile->telephone_number = '709-1945';
+    $profile->email            = 'rjohn.saints@gmail.com';
+    $profile->address          = 'Quezon City';
+    $profile->pagibig          = '5248344125723';
+    $profile->sss              = '2234124125723';
+    $profile->philhealth       = '1232221232238';
+    $profile->tin              = '1234567891234';
+    $profile->save();
+
+    $this->generate(100);
+  }
+
+  /**
+   * @param $count
+   */
+  public function generate($count) {
     $faker = Faker\Factory::create();
     $faker = new Faker\Generator();
     $faker->addProvider(new Faker\Provider\en_US\Person($faker));
@@ -47,7 +110,7 @@ class UsersTableSeeder extends Seeder {
     $faker->addProvider(new Faker\Provider\en_US\PhoneNumber($faker));
     $faker->addProvider(new Faker\Provider\Internet($faker));
 
-    for ($i = 0; $i < 100; $i++) {
+    for ($i = 0; $i < $count; $i++) {
       $user = new User;
 
       $user->uid = $user->generateUid();
@@ -80,61 +143,5 @@ class UsersTableSeeder extends Seeder {
       $profile->tin              = str_pad(rand(1, 2147483647), 13, '0', STR_PAD_LEFT);
       $profile->save();
     }
-
-    // $user = new User;
-
-    // $user->uid = $user->generateUid();
-    // $user->role()->associate(Role::where('name', 'User')->first());
-    // $user->username = 'neonspectrum';
-    // $user->password = '1234';
-    // $user->save();
-
-    // $profile = new Profile;
-
-    // $profile->user()->associate($user);
-    // $profile->first_name       = 'Manny Alejandro';
-    // $profile->middle_name      = 'Andrecio';
-    // $profile->last_name        = 'Young';
-    // $profile->gender           = 'Male';
-    // $profile->nationality      = 'Filipino';
-    // $profile->birthday         = '1999-01-04';
-    // $profile->civil_status     = 'Single';
-    // $profile->mobile_number    = '09772373397';
-    // $profile->telephone_number = '242-5074';
-    // $profile->email            = 'youngskymann@gmail.com';
-    // $profile->address          = 'Manila City';
-    // $profile->sss              = '2234124125723';
-    // $profile->pagibig          = '5248344125723';
-    // $profile->philhealth       = '1232221232238';
-    // $profile->tin              = '1234567891234';
-    // $profile->save();
-
-    // $user = new User;
-
-    // $user->uid = $user->generateUid();
-    // $user->role()->associate(Role::where('name', 'User')->first());
-    // $user->username = 'russell';
-    // $user->password = '1234';
-    // $user->save();
-
-    // $profile = new Profile;
-
-    // $profile->user()->associate($user);
-    // $profile->first_name       = 'Russell John';
-    // $profile->middle_name      = 'Bacal';
-    // $profile->last_name        = 'Santos';
-    // $profile->nationality      = 'Filipino';
-    // $profile->gender           = 'Male';
-    // $profile->birthday         = '1998-11-19';
-    // $profile->civil_status     = 'Single';
-    // $profile->mobile_number    = '09194512311';
-    // $profile->telephone_number = '709-1945';
-    // $profile->email            = 'rjohn.saints@gmail.com';
-    // $profile->address          = 'Quezon City';
-    // $profile->pagibig          = '5248344125723';
-    // $profile->sss              = '2234124125723';
-    // $profile->philhealth       = '1232221232238';
-    // $profile->tin              = '1234567891234';
-    // $profile->save();
   }
 }

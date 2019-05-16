@@ -1,5 +1,4 @@
 @import '_variables';
-@import '_variables';
 @import '~bootstrap/scss/bootstrap';
 @import '~mdbootstrap/scss/mdb';
 @import '~mdbootstrap/scss/addons/_datatables';
@@ -59,188 +58,7 @@ img {
     background-color: rgba(255, 255, 255, 0.5);
   }
 
-  a {
-    color: #92badd;
-    display: inline-block;
-    text-decoration: none;
-    font-weight: 400;
-  }
-
-  h2 {
-    text-align: center;
-    font-size: 16px;
-    font-weight: 600;
-    text-transform: uppercase;
-    display: inline-block;
-    margin: 40px 8px 10px 8px;
-    color: #cccccc;
-  }
-
-  /* STRUCTURE */
-
-  .wrapper {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    min-height: 100%;
-    padding: 20px;
-  }
-
-  #formContent {
-    -webkit-border-radius: 10px 10px 10px 10px;
-    border-radius: 10px 10px 10px 10px;
-    background: #fff;
-    padding: 30px;
-    width: 90%;
-    max-width: 450px;
-    position: relative;
-    padding: 0px;
-    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-    text-align: center;
-  }
-
-  #formFooter {
-    background-color: #f6f6f6;
-    border-top: 1px solid #dce8f1;
-    padding: 25px;
-    text-align: center;
-    border-radius: 0 0 10px 10px;
-  }
-
-  button {
-    background-color: #56baed;
-    border: none;
-    color: white;
-    padding: 15px 80px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    text-transform: uppercase;
-    font-size: 13px;
-    box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-    border-radius: 5px 5px 5px 5px;
-    margin: 5px 20px 40px 20px;
-    transition: all 0.3s ease-in-out;
-
-    &:hover {
-      background-color: #39ace7;
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
-  }
-
-  input {
-    background-color: #f6f6f6;
-    border: none;
-    color: #0d0d0d;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 5px;
-    width: 85%;
-    border: 2px solid #f6f6f6;
-    transition: all 0.5s ease-in-out;
-    border-radius: 5px 5px 5px 5px;
-
-    &:focus {
-      background-color: #fff;
-      border-bottom: 2px solid #5fbae9;
-    }
-
-    &:placeholder {
-      color: #cccccc;
-    }
-  }
-
-  .fadeInDown {
-    animation-name: fadeInDown;
-    animation-duration: 1s;
-    animation-fill-mode: both;
-  }
-
-  @-webkit-keyframes fadeInDown {
-    0% {
-      opacity: 0;
-      transform: translate3d(0, -100%, 0);
-    }
-    100% {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  @keyframes fadeInDown {
-    0% {
-      opacity: 0;
-      transform: translate3d(0, -100%, 0);
-    }
-    100% {
-      opacity: 1;
-      transform: none;
-    }
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  .fadeIn {
-    opacity: 0;
-    animation: fadeIn ease-in 1;
-    animation-fill-mode: forwards;
-    animation-duration: 1s;
-  }
-
-  .fadeIn.first {
-    animation-delay: 0.4s;
-  }
-
-  .fadeIn.second {
-    animation-delay: 0.6s;
-  }
-
-  .fadeIn.third {
-    animation-delay: 0.8s;
-  }
-
-  .fadeIn.fourth {
-    animation-delay: 1s;
-  }
-
-  .underlineHover {
-    &:after {
-      display: block;
-      left: 0;
-      bottom: -10px;
-      width: 0;
-      height: 2px;
-      background-color: #56baed;
-      content: '';
-      transition: width 0.2s;
-    }
-
-    &:hover {
-      color: #0d0d0d;
-    }
-
-    &:hover:after {
-      width: 100%;
-    }
-  }
-  #icon {
-    width: 60%;
-  }
+  @import '_login';
 }
 
 *:focus {
@@ -257,23 +75,13 @@ img {
     text-decoration: none;
   }
 }
+
 .card-link {
   color: white !important;
 }
+
 .card-title {
   color: white !important;
-}
-.btn {
-  &.btn-rounded {
-    border-radius: 10em;
-  }
-  &.btn-icon {
-    width: 47px;
-    padding: 0.84rem 0.84rem;
-  }
-  &:not(.btn-icon) .fas {
-    @extend .mr-1;
-  }
 }
 
 .dt-bootstrap4 {
@@ -303,13 +111,6 @@ img {
   }
 }
 
-.custom-select {
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  -ms-progress-appearance: none;
-  appearance: none;
-}
-
 .dropdown-item {
   padding: 0.25rem 1.5rem !important;
 
@@ -318,10 +119,6 @@ img {
     color: #fff !important;
     background-color: #007bff !important;
   }
-}
-
-.btn-block + .btn-block {
-  margin-top: 0.5rem !important;
 }
 
 .custom-file-label {

@@ -11,6 +11,12 @@
 |
  */
 
+Route::get('/auth', 'AuthController@getAuthenticatedUser');
+Route::post('/login', 'AuthController@login');
+Route::post('/logout', 'AuthController@logout');
+Route::post('/edit_profile', 'Api\UserController@update');
+Route::post('/change_password', 'Api\UserController@changePassword');
+
 Route::group([
   'domain' => 'attendance.{all}',
   'where'  => [
@@ -25,14 +31,22 @@ Route::group([
   })->where('all', '.*');
 });
 
-Route::get('/auth', 'AuthController@getAuthenticatedUser');
+Route::group([
+  'domain' => 'my.{all}',
+  'where'  => [
+    'all' => '.*'
+  ]
+], function () {
+  Route::get('/{all?}', function () {
+    return view('index', ['title' => 'Payroll System', 'js' => 'employee']);
+  })->where('all', '.*');
+});
+
 Route::prefix('/generate')->group(function () {
   Route::post('bir', 'Api\BIRController@generate');
   Route::post('erf', 'Api\ERFController@generate');
   Route::post('mrf', 'Api\MRFController@generate');
 });
-Route::post('/login', 'AuthController@login');
-Route::post('/logout', 'AuthController@logout');
 
 // Route::prefix('/generate')->group(function () {
 //   Route::prefix('/pdf')->group(function () {

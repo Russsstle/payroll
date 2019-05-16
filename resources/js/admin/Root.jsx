@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { AuthProvider, AuthConsumer } from 'react-check-auth'
 
-import Login from './pages/Login'
+import Login from '../core/pages/Login'
 import App from './App'
-import { setUser, setRefreshAuth } from '../assets/Auth'
+import { setUser, setRefreshAuth } from '../core/assets/Auth'
 
 export class Root extends Component {
   constructor(props) {
@@ -33,7 +33,7 @@ export class Root extends Component {
               </div>
             ) : error ? (
               <Switch>
-                <Route exact path='/login' component={Login} />
+                <Route exact path='/login' render={props => <Login {...props} type='Admin' />} />
                 <Redirect from='*' to='/login' />
               </Switch>
             ) : (

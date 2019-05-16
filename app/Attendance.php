@@ -13,12 +13,19 @@ class Attendance extends Model {
   protected $fillable = ['status', 'latitude', 'longitude'];
 
   /**
+   * @var array
+   */
+  protected $casts = [
+    'latitude'  => 'float',
+    'longitude' => 'float'
+  ];
+
+  /**
    * @return mixed
    */
   public function scopeLastStatus($query) {
     $attendance = $query->whereDate('created_at', date('Y-m-d'))->orderBy('id', 'desc')->first();
-
-    return $attendance->status ?? null;
+    return $attendance->status ?? 'LOGGED_OUT';
   }
 
   /**

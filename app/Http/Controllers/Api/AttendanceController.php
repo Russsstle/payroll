@@ -6,6 +6,7 @@ use App\Attendance;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class AttendanceController extends Controller {
   /**
@@ -14,14 +15,31 @@ class AttendanceController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
+    if (request()->query('type') == 'table') {
+      $attendances = Attendance::all();
+      $data        = [];
+
+      foreach ($attendances as $attendance) {
+        $item            = new \stdClass;
+        $item->id        = $attendance->id;
+        $item->name      = $attendance->user->profile->name;
+        $item->status    = $attendance->status;
+        $item->latitude  = $attendance->latitude;
+        $item->longitude = $attendance->longitude;
+        $data[]          = $item;
+      }
+
+      return Datatables::of($data)->make(true);
+    }
+
     $users = User::all();
     $data  = [];
+
     foreach ($users as $user) {
       $item         = new \stdClass;
       $item->name   = $user->profile->name;
-      $item->logged = $user->attendances()->lastStatus() == 'LOGGED_IN';
-
-      $data[] = $item;
+      $item->status = $user->attendances()->lastStatus();
+      $data[]       = $item;
     }
 
     return $data;
@@ -34,7 +52,6 @@ class AttendanceController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function store(Request $request) {
-    //
   }
 
   /**
@@ -44,7 +61,15 @@ class AttendanceController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function show($id) {
-    //
+    $attendance = Attendance::findOrFail($id);
+
+    $data            = new \stdClass;
+    $data->name      = $attendance->user->profile->name;
+    $data->status    = $attendance->status;
+    $data->latitude  = $attendance->latitude;
+    $data->longitude = $attendance->longitude;
+
+    return response()->json($data);
   }
 
   /**

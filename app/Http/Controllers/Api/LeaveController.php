@@ -17,20 +17,20 @@ class LeaveController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $leaves = Leave::all();
+    $user   = auth()->user();
+    $leaves = $user->role->name == 'Admin' ? Leave::all() : Leave::where('user_id', $user->id)->get();
     $data   = [];
 
     foreach ($leaves as $leave) {
-      $item              = new \stdClass;
-      $item->id          = $leave->id;
-      $item->employee_id = $leave->user->id;
-      $item->name        = $leave->user->profile->first_name . ' ' . $leave->user->profile->last_name;
-      $item->type        = $leave->leave_type->name;
-      $item->note        = $leave->note;
-      $item->from        = $leave->from->format('F d, Y');
-      $item->to          = $leave->to->format('F d, Y');
-      $item->created_at  = $leave->created_at->format('F d, Y h:i:s A');
-      $data[]            = $item;
+      $item             = new \stdClass;
+      $item->id         = $leave->id;
+      $item->name       = $leave->user->profile->name;
+      $item->type       = $leave->leave_type->name;
+      $item->note       = $leave->note;
+      $item->from       = $leave->from->format('F d, Y');
+      $item->to         = $leave->to->format('F d, Y');
+      $item->created_at = $leave->created_at->format('F d, Y h:i:s A');
+      $data[]           = $item;
     }
 
     if (request()->query('type') == 'table') {
@@ -48,7 +48,7 @@ class LeaveController extends Controller {
    */
   public function store(Request $request) {
     $leave = new Leave;
-    $leave->user()->associate(User::find($request->user_id));
+    $leave->user()->associate(auth()->user()->role->name == 'Admin' ? User::find($request->user_id) : auth()->user());
     $leave->leave_type()->associate(LeaveType::find($request->leave_type_id));
     $leave->fill($request->only($leave->getfillable()));
 

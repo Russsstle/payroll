@@ -17,6 +17,6 @@
   <script src="{{ mix('js/manifest.js') }}"></script>
   <script src="{{ mix('js/vendor.js') }}"></script>
 @endif
-  <script src="{{ mix("js/{$js}.js") }}"></script>
+  <script crossorigin src="{{ mix("js/{$js}.js") }}"></script>
 </body>
 </html>

@@ -14,6 +14,7 @@ const package = require('./package')
 
 mix.react('resources/js/attendance.js', 'public/js')
 mix.react('resources/js/admin.js', 'public/js')
+mix.react('resources/js/employee.js', 'public/js')
 
 mix.copyDirectory('resources/images', 'public/images')
 

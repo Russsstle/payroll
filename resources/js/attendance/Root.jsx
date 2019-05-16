@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Router, Switch, Route, Redirect } from 'react-router-dom'
 
 import App from './App'
-import Barcode from './Barcode'
-import Manual from './Manual'
+import Barcode from '../core/pages/Barcode'
+import Manual from '../core/pages//Manual'
 
 export class Root extends Component {
   state = { mode: null }
