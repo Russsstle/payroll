@@ -24,5 +24,6 @@ Route::apiResources([
   'schedules'      => 'ScheduleController',
   'roles'          => 'RoleController',
   'role_schedules' => 'RoleScheduleController',
-  'role_salaries'  => 'RoleSalaryController'
+  'role_salaries'  => 'RoleSalaryController',
+  'bir'            => 'BIRController'
 ]);

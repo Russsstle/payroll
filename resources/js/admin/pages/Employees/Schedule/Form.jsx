@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import autobind from 'autobind-decorator'
 import { withRouter } from 'react-router-dom'
 
-import Api from '../../../assets/Api'
-import Loader from '../../../components/Loader'
+import Api from '../../../../assets/Api'
+import Loader from '../../../../components/Loader'
 
-import messages from '../../../strings/messages'
+import messages from '../../../../strings/messages'
 
 export class Form extends Component {
   id = this.props.match.params.id

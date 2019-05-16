@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import autobind from 'autobind-decorator'
 
 import Modal from './Modal'
+import Axios from '../assets/Axios'
 
 export class ModalAllFormsFilter extends Component {
   modal = React.createRef()
@@ -9,31 +10,18 @@ export class ModalAllFormsFilter extends Component {
 
   @autobind
   addEmployee(e) {
-    e.preventDefault()
-    const input = $(e.target[0])
+    if (e.keyCode == 13) {
+      const input = $(e.target)
+      const employees = this.state.employees
+      if (employees.indexOf(input.val()) == -1) {
+        employees.push(input.val())
+        input.val('')
+      } else {
+        input.select()
+        alert('ID already exists')
+      }
 
-    const employees = this.state.employees.concat(input.val())
-    input.val('')
-    this.setState({ employees })
-  }
-  @autobind
-  async generate(e) {
-    e.preventDefault()
-    for (let item of this.form.current.state.attachments) {
-      data.append('file[]', item.file)
-    }
-
-    const attachment = new Api('attachments')
-
-    try {
-      await attachment.add(data)
-      alert(messages.SAVED_SUCCESS)
-      this.props.history.push(this.props.base)
-    } catch (err) {
-      alert(messages.SERVER_ERROR)
-      console.log(err)
-    } finally {
-      this.setState({ isSubmitting: false })
+      this.setState({ employees })
     }
   }
 
@@ -50,20 +38,25 @@ export class ModalAllFormsFilter extends Component {
       <Modal id={this.props.id} ref={this.modal} title='Select Range'>
         <div className='modal-body'>
           <div className='container'>
-            <form className='mt-3' onSubmit={this.addEmployee}>
+            <div className='form-group'>
+              <input
+                type='text'
+                className='form-control'
+                name='name'
+                placeholder='Choose Employee/s'
+                autoComplete='off'
+                onKeyDown={this.addEmployee}
+                required
+              />
+            </div>
+            <form target='_blank' action='/generate/bir' method='POST' className='mt-3'>
+              <input type='hidden' name='_token' defaultValue={$('meta[name=csrf-token]').attr('content')} />
+              {this.state.employees.map((item, key) => (
+                <input key={key} type='hidden' name='employee[]' value={item} />
+              ))}
+
               <div className='form-group'>
-                <input
-                  type='text'
-                  className='form-control'
-                  name='name'
-                  placeholder='Choose Employee/s'
-                  required
-                />
-              </div>
-              <div className='form-group'>
-                <button onClick={this.generate} type='button' class='btn btn-primary'>
-                  Generate
-                </button>
+                <button className='btn btn-primary'>Generate</button>
               </div>
             </form>
             <ul className='list-group'>
