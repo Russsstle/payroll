@@ -6,7 +6,7 @@ import Axios from '../assets/Axios'
 
 export class ModalAllFormsFilter extends Component {
   modal = React.createRef()
-  state = { employees: [] }
+  state = { employees: [], name: '' }
 
   @autobind
   addEmployee(e) {
@@ -38,6 +38,14 @@ export class ModalAllFormsFilter extends Component {
       <Modal id={this.props.id} ref={this.modal} title='Select Range'>
         <div className='modal-body'>
           <div className='container'>
+            {this.props.name == 'bir'
+              ? 'For BIR Form:'
+              : this.props.name == 'erf'
+              ? 'For Employee Remittance Form:'
+              : this.props.name == 'mrf'
+              ? 'For Membership Remittance Form:'
+              : ''}
+            <br />
             <div className='form-group'>
               <input
                 type='text'
@@ -49,7 +57,9 @@ export class ModalAllFormsFilter extends Component {
                 required
               />
             </div>
-            <form target='_blank' action='/generate/bir' method='POST' className='mt-3'>
+
+            {/* {'generate/' + this.props.name} */}
+            <form target='_blank' action={'generate/' + this.props.name} method='POST' className='mt-3'>
               <input type='hidden' name='_token' defaultValue={$('meta[name=csrf-token]').attr('content')} />
               {this.state.employees.map((item, key) => (
                 <input key={key} type='hidden' name='employee[]' value={item} />

@@ -12,6 +12,7 @@ class BIRController extends Controller {
    * @param Request $Request
    */
   public function generate(Request $request) {
+
     $users = User::whereIN('id', $request->employee)->get();
     $pdf   = new Fpdi;
     foreach ($users as $user) {
@@ -87,5 +88,6 @@ class BIRController extends Controller {
 
     $headers = ['Content-Type' => 'application/pdf'];
     return response()->file($pdf->Output(), $headers);
+
   }
 }

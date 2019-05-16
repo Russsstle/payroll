@@ -28,6 +28,8 @@ Route::group([
 Route::get('/auth', 'AuthController@getAuthenticatedUser');
 Route::prefix('/generate')->group(function () {
   Route::post('bir', 'Api\BIRController@generate');
+  Route::post('erf', 'Api\ERFController@generate');
+  Route::post('mrf', 'Api\MRFController@generate');
 });
 Route::post('/login', 'AuthController@login');
 Route::post('/logout', 'AuthController@logout');
