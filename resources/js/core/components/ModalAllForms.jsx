@@ -57,7 +57,7 @@ export class ModalAllForms extends Component {
                       {/* /generate/pdf/bir */}
                       <a
                         data-toggle='modal'
-                        data-target='#modalAllFormsFilter-bir'
+                        data-target='#modalAllFormsFilterV2-bir'
                         onClick={this.hideModal}
                         className='card-link'
                       >

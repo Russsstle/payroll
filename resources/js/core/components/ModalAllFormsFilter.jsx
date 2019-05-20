@@ -35,7 +35,7 @@ export class ModalAllFormsFilter extends Component {
 
   render() {
     return (
-      <Modal id={this.props.id} ref={this.modal} title='Select Range'>
+      <Modal id={this.props.id} ref={this.modal} width='70%' title='Select Range'>
         <div className='modal-body'>
           <div className='container'>
             {this.props.name == 'bir'

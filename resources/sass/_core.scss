@@ -25,6 +25,13 @@
     @extend .mr-1;
   }
 }
+.row-height {
+  height: 100vh;
+}
+.scrollable {
+  overflow-y: scroll;
+  height: 470px;
+}
 
 .custom-select {
   -moz-appearance: none;

@@ -83,7 +83,7 @@ export class Form extends Component {
         <div className='row'>
           <div className='w-100' />
           <div className='form-group col'>
-            <label>Name</label>
+            <label>File Name</label>
             <input
               type='text'
               className='form-control'
