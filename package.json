@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
+    "air-datepicker": "^2.2.3",
     "animate.css": "^3.7.0",
     "autobind-decorator": "^2.4.0",
     "axios": "^0.18",

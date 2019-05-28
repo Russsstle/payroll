@@ -6,14 +6,14 @@ use App\Company;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
-use setasign\Fpdi\Fpdi;
+  use setasign\Fpdi\Fpdi;
 
 class PdfController extends Controller {
   /**
    * @param $id
    */
-  public function generateBIR() {
-    $users = User::all();
+  public function generateBIR($request) {
+    $users = User::whereIN('id', $request->employee)->get();
     $pdf   = new Fpdi;
 
     foreach ($users as $user) {

@@ -41,7 +41,7 @@ export class ModalAllForms extends Component {
                       <a
                         // href='/generate/pdf/employerRF1'
                         data-toggle='modal'
-                        data-target='#modalAllFormsFilter-erf'
+                        data-target='#modalAllFormsFilterV2-erf'
                         onClick={this.hideModal}
                         className='card-link'
                       >
@@ -71,21 +71,21 @@ export class ModalAllForms extends Component {
                     <div className='card-body'>
                       <h5 className='card-title'>SSS</h5>
                       <div style={{ fontSize: 12 }}>
-                        <a href='/generate/pdf/sssMLPR' className='card-link '>
+                        <a href='/generate/sssMLPR' target='_blank' className='card-link '>
                           Member Loan Payment Return
                         </a>
                         <hr style={{ borderColor: 'white' }} />
-                        <a href='/generate/pdf/sssCCL' className='card-link'>
+                        <a href='/generate/sssCCL' target='_blank' className='card-link'>
                           Contribution Collection List
                         </a>
                         <hr style={{ borderColor: 'white' }} />
-                        <a href='/generate/pdf/sssER' className='card-link'>
+                        <a href='/generate/sssER' target='_blank' className='card-link'>
                           Employment Report
                         </a>
-                        <hr style={{ borderColor: 'white' }} />
-                        <a href='/generate/pdf/sssCP' className='card-link'>
+                        {/* <hr style={{ borderColor: 'white' }} />
+                        <a href='/generate/sssCP' target='_blank' className='card-link'>
                           Contribution Payment
-                        </a>
+                        </a> */}
                       </div>
                     </div>
                   </div>
@@ -97,7 +97,7 @@ export class ModalAllForms extends Component {
                       {/* href='/generate/pdf/membership_remittance' */}
                       <a
                         data-toggle='modal'
-                        data-target='#modalAllFormsFilter-mrf'
+                        data-target='#modalAllFormsFilterV2-mrf'
                         onClick={this.hideModal}
                         className='card-link'
                       >

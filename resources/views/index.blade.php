@@ -12,7 +12,7 @@
 </head>
 <body>
   <div id="app"></div>
-  
+
 @if(env('APP_ENV') == "production")
   <script src="{{ mix('js/manifest.js') }}"></script>
   <script src="{{ mix('js/vendor.js') }}"></script>

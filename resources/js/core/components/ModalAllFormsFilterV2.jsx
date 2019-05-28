@@ -23,44 +23,99 @@ export class ModalAllFormsFilterV2 extends Component {
   }
 
   deleteEmployee(id) {
-    const { employees } = this.state
+    const { selectedUsers } = this.state
 
-    employees.splice(id, 1)
+    selectedUsers.splice(id, 1)
 
-    this.setState({ employees })
+    this.setState({ selectedUsers })
+  }
+
+  async selectEmployee(userID) {
+    const employees = new Api('users')
+    try {
+      const { data } = await employees.find(userID)
+      this.setState(prevState => ({
+        selectedUsers: [...prevState.selectedUsers, data]
+      }))
+      console.log(this.state.selectedUsers)
+      // console.log(this.state.users)
+    } catch {
+      alert(messages.FETCH_FAIL)
+    }
+  }
+  searchEmployee(e) {
+    alert('sad')
   }
 
   render() {
     return (
-      <Modal id={this.props.id} ref={this.modal} width='70%' title='Select Range'>
+      <Modal
+        id={this.props.id}
+        ref={this.modal}
+        width='70%'
+        title={
+          this.props.name == 'bir'
+            ? 'For BIR Form:'
+            : this.props.name == 'erf'
+            ? 'For Employee Remittance Form:'
+            : this.props.name == 'mrf'
+            ? 'For Membership Remittance Form:'
+            : ''
+        }
+      >
         <div className='modal-body row-height'>
           <div className='container'>
             <div className='row'>
               <div className='col-sm-12 col-md-6  '>
                 <div style={{ marginBottom: 12 }}>
-                  For BIR Form
                   <input
                     type='text'
                     className='form-control'
                     name='name'
-                    placeholder='Select Employee/s'
+                    placeholder='Search Employee/s'
                     autoComplete='off'
-                    // onKeyDown={this.addEmployee}
+                    onChange={e => {
+                      this.searchEmployee(e)
+                    }}
                     required
                   />
-                  <div className='form-group'>
-                    <button className='btn btn-primary'>Generate</button>
-                  </div>
+                  {/* <form target='_blank' action={'generate/' + this.props.name} method='POST' className='mt-3'>
+                    <input
+                      type='hidden'
+                      name='_token'
+                      defaultValue={$('meta[name=csrf-token]').attr('content')}
+                    />
+                    {this.state.selectedUsers.map((item, key) => (
+                      <input key={key} type='hidden' name='employee[]' value={item.id} />
+                    ))}
+
+                    <div className='form-group'>
+                      <button className='btn btn-primary'>Generate</button>
+                    </div>
+                  </form> */}
                 </div>
-                <div>Selected Employees</div>
+                <div style={{ height: '310px', overflowY: 'auto' }}>
+                  <ul className='list-group'>
+                    {this.state.users.map(
+                      (user, key) =>
+                        _.findIndex(this.state.selectedUsers, x => x.id == user.id) == -1 && (
+                          <a className='btn-delete ' onClick={() => this.selectEmployee(user.id)}>
+                            <li key={key} className='list-group-item'>
+                              {user.name}
+                            </li>
+                          </a>
+                        )
+                    )}
+                  </ul>
+                </div>
               </div>
 
-              <div className='col-sm-12 col-md-6 scrollable  '>
-                Employees
+              <div className='col-sm-12 col-md-6  ' style={{ height: '370px', overflowY: 'auto' }}>
+                Selected Employees
                 <ul className='list-group'>
-                  {this.state.users.map((user, key) => (
+                  {this.state.selectedUsers.map((selectedUser, key) => (
                     <li key={key} className='list-group-item'>
-                      {user.name}
+                      {selectedUser.name}
                       <a className='btn-delete float-right' onClick={() => this.deleteEmployee(key)}>
                         <i className='fas fa-times' />
                       </a>
@@ -68,6 +123,25 @@ export class ModalAllFormsFilterV2 extends Component {
                   ))}
                 </ul>
               </div>
+              <form
+                target='_blank'
+                action={'generate/' + this.props.name}
+                method='POST'
+                style={{ marginLeft: '10px' }}
+              >
+                <input
+                  type='hidden'
+                  name='_token'
+                  defaultValue={$('meta[name=csrf-token]').attr('content')}
+                />
+                {this.state.selectedUsers.map((item, key) => (
+                  <input key={key} type='hidden' name='employee[]' value={item.id} />
+                ))}
+
+                <div className='form-group'>
+                  <button className='btn btn-primary '>Generate</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>

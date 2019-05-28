@@ -61,8 +61,8 @@ class Dashboard extends Component {
               <ModalAllSalaries id='modalAllSalaries' />
               <ModalAllFormsFilter id='modalAllFormsFilter-bir' name='bir' />
               <ModalAllFormsFilterV2 id='modalAllFormsFilterV2-bir' name='bir' />
-              <ModalAllFormsFilter id='modalAllFormsFilter-erf' name='erf' />
-              <ModalAllFormsFilter id='modalAllFormsFilter-mrf' name='mrf' />
+              <ModalAllFormsFilterV2 id='modalAllFormsFilterV2-erf' name='erf' />
+              <ModalAllFormsFilterV2 id='modalAllFormsFilterV2-mrf' name='mrf' />
               <Attendance ref={this.attendance} />
             </>
           ) : (
