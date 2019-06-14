@@ -17,26 +17,43 @@ class LeaveController extends Controller {
    *
    * @return \Illuminate\Http\Response
    */
+  /**
+   * @param $time1
+   * @param $time2
+   * @return int
+   */
+
+  /**
+   * @return mixed
+   */
   public function index() {
     $user       = auth()->user();
     $leaves     = $user->role->name == 'Admin' ? Leave::all() : Leave::where('user_id', $user->id)->get();
     $data       = [];
     $leaveDates = LeaveDate::all();
     foreach ($leaves as $leave) {
-      $dates = '';
+      $dates = [];
+      $a     = '';
       $item  = new \stdClass;
       foreach ($leaveDates as $date) {
         if ($date->leave_id == $leave->id) {
-          $month = $date->date->format('F ');
-          $dates .= $date->date->format(' d,  ');
-          $year = $date->date->format('Y');
+          // $month = $date->date->format('F ');
+          // $dates .= $date->date->format(' d,  ');
+          // $year = $date->date->format('Y');
+          $dates[] = $date->date;
         }
       }
-      $item->id    = $leave->id;
-      $item->name  = $leave->user->profile->name;
-      $item->type  = $leave->leave_type->name;
-      $item->note  = $leave->note;
-      $item->dates = $month . $dates . $year;
+      $item->id   = $leave->id;
+      $item->name = $leave->user->profile->name;
+      $item->type = $leave->leave_type->name;
+      $item->note = $leave->note;
+
+      foreach ($dates as $aDate) {
+        $a .= $aDate->format('F d, Y ') . ' | ';
+      }
+
+      $item->dates =rtrim($a,' | ');
+      // $item->dates = $month . $dates . $year;
       // $item->dates       = ;
       // $item->from       = $leave->from->format('F d, Y');
       // $item->to         = $leave->to->format('F d, Y');
