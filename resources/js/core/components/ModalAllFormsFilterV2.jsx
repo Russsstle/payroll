@@ -17,6 +17,7 @@ export class ModalAllFormsFilterV2 extends Component {
       const { data } = await users.get()
 
       this.setState({ users: data })
+      // console.log(this.state.users)
     } catch {
       alert(messages.FETCH_FAIL)
     }
@@ -46,6 +47,27 @@ export class ModalAllFormsFilterV2 extends Component {
   searchEmployee(e) {
     alert('sad')
   }
+  @autobind
+  async addAll() {
+    const employees = new Api('users')
+    try {
+      const { data } = await employees.get()
+      this.setState({
+        selectedUsers: data
+      })
+      console.log(this.state.selectedUsers)
+      // console.log(this.state.users)
+    } catch {
+      alert(messages.FETCH_FAIL)
+    }
+  }
+  @autobind
+  clear() {
+    this.setState({
+      selectedUsers: []
+    })
+  }
+
 
   render() {
     return (
@@ -68,31 +90,14 @@ export class ModalAllFormsFilterV2 extends Component {
             <div className='row'>
               <div className='col-sm-12 col-md-6  '>
                 <div style={{ marginBottom: 12 }}>
-                  <input
-                    type='text'
-                    className='form-control'
-                    name='name'
-                    placeholder='Search Employee/s'
-                    autoComplete='off'
-                    onChange={e => {
-                      this.searchEmployee(e)
-                    }}
-                    required
-                  />
-                  {/* <form target='_blank' action={'generate/' + this.props.name} method='POST' className='mt-3'>
-                    <input
-                      type='hidden'
-                      name='_token'
-                      defaultValue={$('meta[name=csrf-token]').attr('content')}
-                    />
-                    {this.state.selectedUsers.map((item, key) => (
-                      <input key={key} type='hidden' name='employee[]' value={item.id} />
-                    ))}
-
-                    <div className='form-group'>
-                      <button className='btn btn-primary'>Generate</button>
+                  <div className='row'>
+                   
+                    <div className='col-sm-12 col-md-4  '>
+                      <button className='btn btn-primary btn-sm mt-1' onClick={this.addAll}>
+                        Add All
+                      </button>
                     </div>
-                  </form> */}
+                  </div>
                 </div>
                 <div style={{ height: '310px', overflowY: 'auto' }}>
                   <ul className='list-group'>
@@ -110,42 +115,55 @@ export class ModalAllFormsFilterV2 extends Component {
                 </div>
               </div>
 
-              <div className='col-sm-12 col-md-6  ' style={{ height: '370px', overflowY: 'auto' }}>
-                Selected Employees
-                <ul className='list-group'>
-                  {this.state.selectedUsers.map((selectedUser, key) => (
-                    <li key={key} className='list-group-item'>
-                      {selectedUser.name}
-                      <a className='btn-delete float-right' onClick={() => this.deleteEmployee(key)}>
-                        <i className='fas fa-times' />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <form
-                target='_blank'
-                action={'generate/' + this.props.name}
-                method='POST'
-                style={{ marginLeft: '10px' }}
-              >
-                <input
-                  type='hidden'
-                  name='_token'
-                  defaultValue={$('meta[name=csrf-token]').attr('content')}
-                />
-                {this.state.selectedUsers.map((item, key) => (
-                  <input key={key} type='hidden' name='employee[]' value={item.id} />
-                ))}
-
-                <div className='form-group'>
-                  <button className='btn btn-primary '>Generate</button>
+              <div className='col-sm-12 col-md-6 '>
+                <div className='mb-12'>
+                  Selected Employees
+                  <button className='btn btn-primary btn-sm mt-1 ' onClick={this.clear}>
+                    Clear
+                  </button>
                 </div>
-              </form>
+                <div style={{ height: '319px', overflowY: 'auto' }}>
+                  <ul className='list-group'>
+                    {this.state.selectedUsers.map((selectedUser, key) => (
+                      <li key={key} className='list-group-item'>
+                        {selectedUser.name}
+                        <a className='btn-delete float-right' onClick={() => this.deleteEmployee(key)}>
+                          <i className='fas fa-times' />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className='row' style={{ height: '1px', textAlign: 'right' }}>
+              <div className='col-sm-12 col-md-6 ' />
+              <div className='col-sm-12 col-md-6 '>
+                <form
+                  target='_blank'
+                  action={'generate/' + this.props.name}
+                  method='POST'
+                  style={{ marginLeft: '10px' }}
+                >
+                  <input
+                    type='hidden'
+                    name='_token'
+                    defaultValue={$('meta[name=csrf-token]').attr('content')}
+                  />
+                  {this.state.selectedUsers.map((item, key) => (
+                    <input key={key} type='hidden' name='employee[]' value={item.id} />
+                  ))}
+
+                  <div className='form-group'>
+                    <button className='btn btn-primary  mt-0'>Generate</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </Modal>
+     
     )
   }
 }

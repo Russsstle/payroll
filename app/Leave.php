@@ -8,13 +8,13 @@ class Leave extends Model {
   /**
    * @var array
    */
-  protected $dates = ['from', 'to'];
+  // protected $dates = ['from', 'to'];
 
   /**
    * @var array
    */
   protected $fillable = [
-    'type', 'note', 'from', 'to'
+    'type', 'note'
   ];
   /**
    * @return mixed
@@ -29,4 +29,10 @@ class Leave extends Model {
     return $this->belongsTo(LeaveType::class);
   }
 
+  /**
+   * @return mixed
+   */
+  public function leave_date() {
+    return $this->hasMany(LeaveDate::class);
+  }
 }

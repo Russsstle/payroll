@@ -23,8 +23,21 @@ export class Form extends Component {
     await Promise.all([this.fetchLeaveType(), this.fetchUser()])
 
     if (this.props.type == 'view' || this.props.type == 'edit') {
-      this.fetchData()
+      await this.fetchData()
     }
+    const b = new Date()
+    var mydate = new Date('2019-05-29')
+    var a = $('.datepicker-here')
+      .datepicker({
+        position: 'top left',
+        multipleDates: true,
+        multipleDatesSeparator: ' | ',
+        inline: true
+      })
+      .data('datepicker')
+    a.selectDate(mydate)
+    a.selectDate(b)
+    console.log(b)
   }
 
   async fetchData() {
@@ -77,6 +90,7 @@ export class Form extends Component {
           <div className='w-100' />
           {user.type == 'Admin' && (
             <div className='form-group col'>
+              <input type='hidden' name='user_id' disabled={type == 'add'} value={leave.user_id} />
               <label>Employee</label>
               <select
                 className='custom-select'
@@ -92,38 +106,68 @@ export class Form extends Component {
                   </option>
                 ))}
               </select>
+              <div className='form-group '>
+                <label>Type</label>
+                <select
+                  className='custom-select'
+                  name='leave_type_id'
+                  defaultValue={leave.leave_type_id}
+                  required
+                >
+                  <option />
+                  {leaveTypes.map((leaveType, key) => (
+                    <option key={key} value={leaveType.id}>
+                      {leaveType.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className='form-group '>
+                <label>Note</label>
+                <textarea
+                  className='form-control'
+                  name='note'
+                  disabled={type == 'view'}
+                  defaultValue={leave.note}
+                  rows='5'
+                />
+              </div>
             </div>
           )}
-          <div className='form-group col-6'>
-            <label>Type</label>
-            <select
-              className='custom-select'
-              name='leave_type_id'
-              defaultValue={leave.leave_type_id}
-              required
-            >
-              <option />
-              {leaveTypes.map((leaveType, key) => (
-                <option key={key} value={leaveType.id}>
-                  {leaveType.name}
-                </option>
-              ))}
-            </select>
+
+          <div className='form-group col'>
+            <div className='pl-10'>
+              <label>Date/s</label>
+              <input
+                type='hidden'
+                className='form-control datepicker-here'
+                data-language='en'
+                name='dates'
+                autoComplete='off'
+              />
+            </div>
           </div>
-          <div className='w-100' />
+
+          {/* <div className='w-100' />
           <div className='form-group col'>
             <label>Note</label>
-            <textarea className='form-control' name='note' defaultValue={leave.note} rows='5' />
+            <textarea
+              className='form-control'
+              name='note'
+              disabled={type == 'view'}
+              defaultValue={leave.note}
+              rows='5'
+            />
           </div>
-          <div className='w-100' />
-          <div className='form-group col'>
-            <label>Form</label>
+          <div className='w-100' /> */}
+          {/* <div className='form-group col'>
+            <label>From</label>
             <input type='date' className='form-control' name='from' defaultValue={leave.from} />
           </div>
           <div className='form-group col'>
             <label>To</label>
             <input type='date' className='form-control' name='to' defaultValue={leave.to} />
-          </div>
+          </div> */}
         </div>
         {this.props.children}
       </form>

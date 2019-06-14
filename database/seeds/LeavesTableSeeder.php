@@ -18,8 +18,8 @@ class LeavesTableSeeder extends Seeder {
     $leave->user()->associate(User::find(1));
     $leave->leave_type()->associate(LeaveType::find(1));
     $leave->note = 'The main reason';
-    $leave->from = '2019-05-05';
-    $leave->to   = '2019-05-06';
+    // $leave->from = '2019-05-05';
+    // $leave->to   = '2019-05-06';
 
     $leave->save();
   }
