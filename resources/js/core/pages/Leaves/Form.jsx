@@ -26,7 +26,7 @@ export class Form extends Component {
       await this.fetchData()
     }
     const b = new Date()
-    var mydate = new Date('2019-05-29')
+    // var mydate = new Date('2019-05-29')
     var a = $('.datepicker-here')
       .datepicker({
         position: 'top left',
@@ -35,7 +35,7 @@ export class Form extends Component {
         inline: true
       })
       .data('datepicker')
-    a.selectDate(mydate)
+    // a.selectDate(mydate)
     a.selectDate(b)
     console.log(b)
   }
