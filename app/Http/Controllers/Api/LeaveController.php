@@ -18,16 +18,25 @@ class LeaveController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $user   = auth()->user();
-    $leaves = $user->role->name == 'Admin' ? Leave::all() : Leave::where('user_id', $user->id)->get();
-    $data   = [];
-
+    $user       = auth()->user();
+    $leaves     = $user->role->name == 'Admin' ? Leave::all() : Leave::where('user_id', $user->id)->get();
+    $data       = [];
+    $leaveDates = LeaveDate::all();
     foreach ($leaves as $leave) {
-      $item       = new \stdClass;
-      $item->id   = $leave->id;
-      $item->name = $leave->user->profile->name;
-      $item->type = $leave->leave_type->name;
-      $item->note = $leave->note;
+      $dates = '';
+      $item  = new \stdClass;
+      foreach ($leaveDates as $date) {
+        if ($date->leave_id == $leave->id) {
+          $month = $date->date->format('F ');
+          $dates .= $date->date->format(' d,  ');
+          $year = $date->date->format('Y');
+        }
+      }
+      $item->id    = $leave->id;
+      $item->name  = $leave->user->profile->name;
+      $item->type  = $leave->leave_type->name;
+      $item->note  = $leave->note;
+      $item->dates = $month . $dates . $year;
       // $item->dates       = ;
       // $item->from       = $leave->from->format('F d, Y');
       // $item->to         = $leave->to->format('F d, Y');
