@@ -14,9 +14,9 @@
   <div id="app"></div>
   
 @if(env('APP_ENV') == "production")
-  <script src="{{ mix('js/manifest.js') }}"></script>
-  <script src="{{ mix('js/vendor.js') }}"></script>
+  <script src="{{ url('/') . mix('js/manifest.js') }}"></script>
+  <script src="{{ url('/') . mix('js/vendor.js') }}"></script>
 @endif
-  <script crossorigin src="{{ mix("js/{$js}.js") }}"></script>
+  <script crossorigin src="{{ url('/') . mix("js/{$js}.js") }}"></script>
 </body>
 </html>
