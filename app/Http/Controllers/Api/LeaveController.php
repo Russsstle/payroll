@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Leave;
+use App\LeaveDate;
 use App\LeaveType;
 use App\Profile;
 use App\User;
@@ -16,19 +17,46 @@ class LeaveController extends Controller {
    *
    * @return \Illuminate\Http\Response
    */
-  public function index() {
-    $user   = auth()->user();
-    $leaves = $user->role->name == 'Admin' ? Leave::all() : Leave::where('user_id', $user->id)->get();
-    $data   = [];
+  /**
+   * @param $time1
+   * @param $time2
+   * @return int
+   */
 
+  /**
+   * @return mixed
+   */
+  public function index() {
+    $user       = auth()->user();
+    $leaves     = $user->role->name == 'Admin' ? Leave::all() : Leave::where('user_id', $user->id)->get();
+    $data       = [];
+    $leaveDates = LeaveDate::all();
     foreach ($leaves as $leave) {
-      $item             = new \stdClass;
-      $item->id         = $leave->id;
-      $item->name       = $leave->user->profile->name;
-      $item->type       = $leave->leave_type->name;
-      $item->note       = $leave->note;
-      $item->from       = $leave->from->format('F d, Y');
-      $item->to         = $leave->to->format('F d, Y');
+      $dates = [];
+      $a     = '';
+      $item  = new \stdClass;
+      foreach ($leaveDates as $date) {
+        if ($date->leave_id == $leave->id) {
+          // $month = $date->date->format('F ');
+          // $dates .= $date->date->format(' d,  ');
+          // $year = $date->date->format('Y');
+          $dates[] = $date->date;
+        }
+      }
+      $item->id   = $leave->id;
+      $item->name = $leave->user->profile->name;
+      $item->type = $leave->leave_type->name;
+      $item->note = $leave->note;
+
+      foreach ($dates as $aDate) {
+        $a .= $aDate->format('F d, Y ') . ' | ';
+      }
+
+      $item->dates =rtrim($a,' | ');
+      // $item->dates = $month . $dates . $year;
+      // $item->dates       = ;
+      // $item->from       = $leave->from->format('F d, Y');
+      // $item->to         = $leave->to->format('F d, Y');
       $item->created_at = $leave->created_at->format('F d, Y h:i:s A');
       $data[]           = $item;
     }
@@ -51,8 +79,17 @@ class LeaveController extends Controller {
     $leave->user()->associate(auth()->user()->role->name == 'Admin' ? User::find($request->user_id) : auth()->user());
     $leave->leave_type()->associate(LeaveType::find($request->leave_type_id));
     $leave->fill($request->only($leave->getfillable()));
+    $dates = $request->dates;
+    $dates = explode(' | ', $dates);
 
     $leave->save();
+
+    foreach ($dates as $date) {
+      $leaveDates = new LeaveDate;
+      $leaveDates->fill(['leave_id' => $leave->id, 'date' => date('Y-m-d', strtotime($date))]);
+      $leaveDates->save();
+    }
+
     return ['success' => true];
   }
 
@@ -71,10 +108,11 @@ class LeaveController extends Controller {
       foreach ($leaves as $leave) {
         $item = new \stdClass;
 
-        $item->type       = $leave->leave_type->name;
-        $item->note       = $leave->note;
-        $item->from       = $leave->from->format('F d, Y');
-        $item->to         = $leave->to->format('F d, Y');
+        $item->type = $leave->leave_type->name;
+        $item->note = $leave->note;
+
+        // $item->from = $leave->from->format('F d, Y');
+        // $item->to         = $leave->to->format('F d, Y');
         $item->created_at = $leave->created_at->format('F d, Y h:i:s A');
         $data[]           = $item;
       }
@@ -91,8 +129,9 @@ class LeaveController extends Controller {
     $item->name          = $leave->user->profile->first_name . ' ' . $leave->user->profile->last_name;
     $item->leave_type_id = $leave->leave_type_id;
     $item->note          = $leave->note;
-    $item->from          = $leave->from->format('Y-m-d');
-    $item->to            = $leave->to->format('Y-m-d');
+    // $item->dates         = ;
+    // $item->from          = $leave->from->format('Y-m-d');
+    // $item->to            = $leave->to->format('Y-m-d');
 
     return response()->json($item);
 
@@ -109,8 +148,20 @@ class LeaveController extends Controller {
     $leave = Leave::find($id);
     $leave->user()->associate(User::find($request->user_id));
     $leave->leave_type()->associate(LeaveType::find($request->leave_type_id));
+
     $leave->fill($request->only($leave->getFillable()));
+
     $leave->save();
+    $dates = $request->dates;
+    $dates = explode(' | ', $dates);
+
+    LeaveDate::where('leave_id', $id)->delete();
+
+    foreach ($dates as $date) {
+      $leaveDates = new LeaveDate;
+      $leaveDates->fill(['leave_id' => $id, 'date' => date('Y-m-d', strtotime($date))]);
+      $leaveDates->save();
+    }
 
     // $data       = new \stdClass;
     // $data->id   = $leave->id;
@@ -119,7 +170,7 @@ class LeaveController extends Controller {
     // $data->from = $leave->from;
     // $data->to   = $leave->to;
 
-    return ['success' => true];
+    return ['success' => true, 'dates' => $dates];
   }
 
   /**

@@ -18,8 +18,8 @@ class CreateLeavesTable extends Migration {
       $table->bigInteger('leave_type_id')->unsigned();
       $table->foreign('leave_type_id')->references('id')->on('leave_types');
       $table->string('note');
-      $table->date('from');
-      $table->date('to');
+      // $table->date('from');
+      // $table->date('to');
       $table->timestamps();
     });
   }

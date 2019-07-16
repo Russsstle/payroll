@@ -7,6 +7,7 @@ import Attendance from '../../core/components/Attendance'
 import ModalAllForms from '../../core/components/ModalAllForms'
 import ModalAllSalaries from '../../core/components/ModalAllSalaries'
 import ModalAllFormsFilter from '../../core/components/ModalAllFormsFilter'
+import ModalAllFormsFilterV2 from '../../core/components/ModalAllFormsFilterV2'
 
 class Dashboard extends Component {
   attendance = React.createRef()
@@ -24,7 +25,7 @@ class Dashboard extends Component {
           {user.type == 'Admin' ? (
             <>
               <div className='col-sm-12 col-md-4 dashboard-tile '>
-                <Link to='/leaves/add'>
+                <Link to='/leaves'>
                   <div className='card shadow'>
                     <div className='card-body'>Manage Leaves</div>
                   </div>
@@ -59,8 +60,9 @@ class Dashboard extends Component {
               <ModalAllForms id='modalAllForms' />
               <ModalAllSalaries id='modalAllSalaries' />
               <ModalAllFormsFilter id='modalAllFormsFilter-bir' name='bir' />
-              <ModalAllFormsFilter id='modalAllFormsFilter-erf' name='erf' />
-              <ModalAllFormsFilter id='modalAllFormsFilter-mrf' name='mrf' />
+              <ModalAllFormsFilterV2 id='modalAllFormsFilterV2-bir' name='bir' />
+              <ModalAllFormsFilterV2 id='modalAllFormsFilterV2-erf' name='erf' />
+              <ModalAllFormsFilterV2 id='modalAllFormsFilterV2-mrf' name='mrf' />
               <Attendance ref={this.attendance} />
             </>
           ) : (

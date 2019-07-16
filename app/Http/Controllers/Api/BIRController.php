@@ -90,4 +90,5 @@ class BIRController extends Controller {
     return response()->file($pdf->Output(), $headers);
 
   }
+  // public function 
 }

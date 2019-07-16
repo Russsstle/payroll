@@ -43,9 +43,15 @@ Route::group([
 });
 
 Route::prefix('/generate')->group(function () {
+
   Route::post('bir', 'Api\BIRController@generate');
   Route::post('erf', 'Api\ERFController@generate');
   Route::post('mrf', 'Api\MRFController@generate');
+  Route::get('sssMLPR', 'PdfController@generateMemberLoanPaymentReturn');
+  Route::get('sssCCL', 'PdfController@generateContributionCollectionList');
+  Route::get('sssER', 'PdfController@generateEmploymentReport');
+  Route::get('sssCP', 'PdfController@generateContributionPayment');
+
 });
 
 // Route::prefix('/generate')->group(function () {

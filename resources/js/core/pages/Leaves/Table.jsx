@@ -13,8 +13,8 @@ export class Table extends Component {
           { label: 'ID', key: 'id' },
           { label: 'Employee Name', key: 'name' },
           { label: 'Note', key: 'note' },
-          { label: 'From', key: 'from' },
-          { label: 'To', key: 'to' },
+          { label: 'Date/s', key: 'dates' },
+          // { label: 'To', key: 'to' },
           { label: 'Issued', key: 'created_at' }
         ].filter(x => (user.type == 'User' ? x.key != 'name' : true))}
       />

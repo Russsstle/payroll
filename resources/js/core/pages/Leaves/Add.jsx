@@ -35,7 +35,7 @@ export class Add extends Component {
       <div>
         <h2>Add Leave</h2>
         <Form type='add' onSubmit={this.handleSubmit}>
-          <div className='form-group'>
+          <div className='form-group align-center'>
             <Button className='btn btn-primary btn-rounded' loading={this.state.isSubmitting}>
               Save
             </Button>

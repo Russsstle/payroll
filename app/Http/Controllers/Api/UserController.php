@@ -90,6 +90,7 @@ class UserController extends Controller {
   public function show($id) {
     $user         = User::find($id);
     $data         = (object) array_merge($user->toArray(), $user->profile->toArray());
+    $data->name   = $user->profile->name;
     $data->avatar = asset($user->profile->avatar);
 
     return response()->json($data);

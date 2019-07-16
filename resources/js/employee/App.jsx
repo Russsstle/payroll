@@ -6,6 +6,7 @@ import Breadcrumb from '../core/components/Breadcrumb'
 import Dashboard from '../core/pages/Dashboard'
 import Attachments from '../core/pages/Attachments'
 import Leaves from '../core/pages/Leaves'
+import EditProfile from '../core/pages/EditProfile'
 
 export class Router extends Component {
   state = {
@@ -27,6 +28,7 @@ export class Router extends Component {
           <Switch>
             <Route exact path='/' component={Dashboard} />
             <Route path='/attachments' component={Attachments} />
+            <Route path='/edit_profile' component={EditProfile} />
             <Route path='/leaves' component={Leaves} />
           </Switch>
         </div>

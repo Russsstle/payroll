@@ -64,7 +64,7 @@ class UsersTableSeeder extends Seeder {
     $profile->address          = 'Manila City';
     $profile->sss              = '2234124125723';
     $profile->pagibig          = '5248344125723';
-    $profile->philhealth       = '1232221232238';
+    $profile->philhealth       = '123222123223';
     $profile->tin              = '1234567891234';
     $profile->save();
 
@@ -92,7 +92,7 @@ class UsersTableSeeder extends Seeder {
     $profile->address          = 'Quezon City';
     $profile->pagibig          = '5248344125723';
     $profile->sss              = '2234124125723';
-    $profile->philhealth       = '1232221232238';
+    $profile->philhealth       = '123222123223';
     $profile->tin              = '1234567891234';
     $profile->save();
 
