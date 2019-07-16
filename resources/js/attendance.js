@@ -11,7 +11,7 @@ import Root from './attendance/Root'
 
 render(
   <AppContainer>
-    <BrowserRouter>
+    <BrowserRouter basename={$('base').attr('href')}>
       <Root />
     </BrowserRouter>
   </AppContainer>,
