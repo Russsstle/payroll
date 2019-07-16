@@ -11,7 +11,7 @@ import Root from './attendance/Root'
 
 render(
   <AppContainer>
-    <BrowserRouter basename={$('base').attr('href')}>
+    <BrowserRouter basename='/payroll'>
       <Root />
     </BrowserRouter>
   </AppContainer>,
