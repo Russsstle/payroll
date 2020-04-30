@@ -35,7 +35,7 @@
     "datatables.net-bs4": "^1.10.19",
     "fuzzy-search": "^3.0.1",
     "hover.css": "^2.3.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jquery-highlight": "^3.5.0",
     "lodash": "^4.17.5",
     "moment": "^2.24.0",
