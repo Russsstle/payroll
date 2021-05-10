@@ -37,7 +37,7 @@
     "hover.css": "^2.3.2",
     "jquery": "^3.4.1",
     "jquery-highlight": "^3.5.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "popper.js": "^1.12",
     "react": "^16.2.0",
